@@ -199,7 +199,7 @@ def get_interview_history(limit: int = 15):
     return rows
 
 
-def run_hands_free_interview_question(topic: str, on_status=None, on_question=None, on_eval=None) -> dict:
+def run_hands_free_interview_question(topic: str, on_status=None, on_question=None, on_eval=None, stop_event=None) -> dict:
     """
     Executes a complete hands-free voice interview round:
     1. Generates technical question.
@@ -208,12 +208,23 @@ def run_hands_free_interview_question(topic: str, on_status=None, on_question=No
     4. Evaluates answer via local Ollama.
     5. Saves result in database.
     6. Speaks verdict and score aloud.
+
+    stop_event: threading.Event — set it to cancel the drill between steps.
     """
     from voice import speak, listen_to_microphone, play_chime
+
+    def _stopped():
+        return stop_event is not None and stop_event.is_set()
+
+    if _stopped():
+        return {"cancelled": True}
 
     if on_status:
         on_status("Synthesizing technical question...")
     q = generate_interview_question(topic)
+
+    if _stopped():
+        return {"cancelled": True}
 
     if on_question:
         on_question(q)
@@ -222,6 +233,9 @@ def run_hands_free_interview_question(topic: str, on_status=None, on_question=No
     if on_status:
         on_status("JARVIS speaking question...")
     speak(q, async_mode=False)
+
+    if _stopped():
+        return {"cancelled": True}
 
     play_chime()
 
@@ -232,6 +246,9 @@ def run_hands_free_interview_question(topic: str, on_status=None, on_question=No
     user_ans, err = listen_to_microphone(timeout=10, phrase_time_limit=20)
     if not user_ans:
         user_ans = "No spoken answer detected."
+
+    if _stopped():
+        return {"cancelled": True}
 
     if on_status:
         on_status("Analyzing technical answer...")

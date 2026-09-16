@@ -172,6 +172,9 @@ class JarvisGUI(ctk.CTk):
         self.quiz_timer_seconds = 60
         self.quiz_timer_running = False
 
+        # Hands-free drill stop flag
+        self._hands_free_stop_event = None
+
         # Striver Sheet state
         self.selected_dsa_problem_id = None
 
@@ -1732,7 +1735,7 @@ class JarvisGUI(ctk.CTk):
         self.hands_free_btn = ctk.CTkButton(
             ctrl_frame,
             text="🎙️ Hands-Free Drill",
-            command=self._on_hands_free_voice_drill,
+            command=self._on_hands_free_toggle,
             fg_color="#7c2d12",
             hover_color="#9a3412",
             text_color="#ffffff",
@@ -1796,10 +1799,10 @@ class JarvisGUI(ctk.CTk):
         )
         self.mock_voice_btn.pack(side=tk.LEFT)
 
-        self.hands_free_btn = ctk.CTkButton(
+        self.hands_free_btn2 = ctk.CTkButton(
             ans_btn_row,
             text="🎙️ Hands-Free Drill",
-            command=self._on_hands_free_voice_drill,
+            command=self._on_hands_free_toggle,
             fg_color="#10b981",
             hover_color="#059669",
             font=("Segoe UI", 9, "bold"),
@@ -1807,7 +1810,7 @@ class JarvisGUI(ctk.CTk):
             width=135,
             cursor="hand2",
         )
-        self.hands_free_btn.pack(side=tk.LEFT, padx=6)
+        self.hands_free_btn2.pack(side=tk.LEFT, padx=6)
 
         self.grade_btn = ctk.CTkButton(
             ans_btn_row,
@@ -1921,12 +1924,33 @@ class JarvisGUI(ctk.CTk):
         self.mock_eval_text.insert(tk.END, f"💡 MODEL ANSWER:\n{res.get('model_answer', '')}\n")
         self.mock_eval_text.configure(state=tk.DISABLED)
 
+    def _on_hands_free_toggle(self):
+        """Toggle the hands-free drill on/off. If already running, stop it; otherwise start."""
+        if self._hands_free_stop_event is not None and not self._hands_free_stop_event.is_set():
+            # --- STOP ---
+            self._hands_free_stop_event.set()
+            self.status_lbl.configure(text="● Stopping Hands-Free Drill...")
+        else:
+            # --- START ---
+            self._on_hands_free_voice_drill()
+
     def _on_hands_free_voice_drill(self):
         topic = self.mock_topic_menu.get()
-        self.hands_free_btn.configure(state=tk.DISABLED)
-        self.mock_voice_btn.configure(state=tk.DISABLED)
-        self.gen_q_btn.configure(state=tk.DISABLED)
-        self.grade_btn.configure(state=tk.DISABLED)
+        self._hands_free_stop_event = threading.Event()
+
+        # Switch both buttons to STOP mode
+        def _set_stop_mode():
+            for btn in (self.hands_free_btn, self.hands_free_btn2):
+                btn.configure(
+                    text="🛑 Stop Drill",
+                    fg_color="#dc2626",
+                    hover_color="#b91c1c",
+                )
+            self.mock_voice_btn.configure(state=tk.DISABLED)
+            self.gen_q_btn.configure(state=tk.DISABLED)
+            self.grade_btn.configure(state=tk.DISABLED)
+        _set_stop_mode()
+
         self._anim_mode = "thinking"
         self.mock_q_text.configure(text=f"Hands-Free Drill: Synthesizing placement question on {topic}...")
 
@@ -1940,19 +1964,30 @@ class JarvisGUI(ctk.CTk):
         def on_eval(ans, res):
             self.after(0, lambda: self._on_hands_free_eval_done(ans, res))
 
+        stop_ev = self._hands_free_stop_event
+
         def _run():
             try:
-                run_hands_free_interview_question(
+                result = run_hands_free_interview_question(
                     topic,
                     on_status=on_status,
                     on_question=on_question,
                     on_eval=on_eval,
+                    stop_event=stop_ev,
                 )
+                if result.get("cancelled"):
+                    self.after(0, lambda: self.mock_q_text.configure(text="Hands-Free Drill stopped."))
             except Exception as e:
                 self.after(0, lambda: messagebox.showerror("Hands-Free Drill Error", str(e)))
             finally:
                 def _reset():
-                    self.hands_free_btn.configure(state=tk.NORMAL)
+                    self._hands_free_stop_event = None
+                    for btn in (self.hands_free_btn, self.hands_free_btn2):
+                        btn.configure(
+                            text="🎙️ Hands-Free Drill",
+                            fg_color="#7c2d12",
+                            hover_color="#9a3412",
+                        )
                     self.mock_voice_btn.configure(state=tk.NORMAL)
                     self.gen_q_btn.configure(state=tk.NORMAL)
                     self.grade_btn.configure(state=tk.NORMAL)
