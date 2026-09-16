@@ -169,10 +169,16 @@ class FocusTimerEngine:
             cur = conn.cursor()
             if self.session_id:
                 cur.execute("UPDATE focus_sessions SET completed = 1 WHERE id = ?", (self.session_id,))
+            # `logs` is the shared assistant event ledger.  The original
+            # columns here belonged to an abandoned schema, so completed
+            # sessions were silently lost by the broad exception handler.
             cur.execute("""
-                INSERT INTO logs (subject, action, details)
-                VALUES ('Focus Sprint', 'Deep Work Completed', ?)
-            """, (f"{mins} mins on {self.task_name}",))
+                INSERT INTO logs (raw_text, parsed_summary)
+                VALUES (?, ?)
+            """, (
+                f"Completed {mins}-minute focus sprint: {self.task_name}",
+                f'{{"event": "focus_completed", "duration_minutes": {mins}}}',
+            ))
             conn.commit()
             conn.close()
         except Exception:

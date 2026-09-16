@@ -96,6 +96,7 @@ def _get_target2_stale_topic() -> str:
                (julianday('now') - julianday(t.last_touched_date)) as days_stale
         FROM topics t
         JOIN subjects s ON t.subject_id = s.id
+        WHERE t.status != 'done'
         ORDER BY days_stale DESC
         LIMIT 1
     """)
@@ -117,7 +118,10 @@ def _get_target3_deliverable() -> str:
     cur.execute("""
         SELECT task_name, category FROM tasks
         WHERE status != 'done'
-        ORDER BY id ASC
+        ORDER BY
+            CASE WHEN due_date IS NULL THEN 1 ELSE 0 END,
+            due_date ASC,
+            created_date ASC
         LIMIT 1
     """)
     row = cur.fetchone()
