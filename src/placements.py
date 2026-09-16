@@ -76,6 +76,24 @@ def init_applications_table():
         ON applications(stage)
     """)
 
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS company_questions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            company TEXT NOT NULL,
+            role TEXT,
+            round_type TEXT NOT NULL,
+            question_text TEXT NOT NULL,
+            difficulty TEXT DEFAULT 'Medium',
+            notes TEXT,
+            created_date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    cur.execute("""
+        CREATE INDEX IF NOT EXISTS idx_company_questions_company
+        ON company_questions(company)
+    """)
+
     conn.commit()
     conn.close()
 
@@ -216,6 +234,164 @@ def get_placement_summary():
         "interviews": interviews,
         "offers": offers,
     }
+
+
+# --------------------------------------------------
+# Kanban & Pipeline Promotion Helpers
+# --------------------------------------------------
+
+KANBAN_COLUMNS = [
+    "Applied",
+    "OA (Online Assessment)",
+    "Technical Interview",
+    "HR Interview",
+    "Offer Received",
+]
+
+
+def get_kanban_data(company_filter: str = None):
+    """Returns applications grouped by active Kanban stages, with optional company filtering."""
+    conn = get_connection()
+    cur = conn.cursor()
+    if company_filter and company_filter.strip():
+        cur.execute("""
+            SELECT id, company, role, stage, applied_date, result, notes
+            FROM applications
+            WHERE LOWER(company) LIKE LOWER(?)
+            ORDER BY id DESC
+        """, (f"%{company_filter.strip()}%",))
+    else:
+        cur.execute("""
+            SELECT id, company, role, stage, applied_date, result, notes
+            FROM applications
+            ORDER BY id DESC
+        """)
+    rows = cur.fetchall()
+    conn.close()
+
+    kanban = {col: [] for col in KANBAN_COLUMNS}
+    kanban["Rejected / Other"] = []
+
+    for r in rows:
+        app = {
+            "id": r[0],
+            "company": r[1],
+            "role": r[2],
+            "stage": r[3],
+            "applied_date": r[4],
+            "result": r[5],
+            "notes": r[6] or "",
+        }
+        if app["stage"] in kanban:
+            kanban[app["stage"]].append(app)
+        else:
+            kanban["Rejected / Other"].append(app)
+
+    return kanban
+
+
+def promote_application(app_id: int):
+    """Moves an application to the next logical stage."""
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT stage FROM applications WHERE id = ?", (app_id,))
+    row = cur.fetchone()
+    if not row:
+        conn.close()
+        return None
+
+    current_stage = row[0]
+    if current_stage in KANBAN_COLUMNS:
+        idx = KANBAN_COLUMNS.index(current_stage)
+        if idx < len(KANBAN_COLUMNS) - 1:
+            next_stage = KANBAN_COLUMNS[idx + 1]
+            cur.execute("UPDATE applications SET stage = ? WHERE id = ?", (next_stage, app_id))
+            conn.commit()
+            conn.close()
+            return next_stage
+    conn.close()
+    return current_stage
+
+
+def demote_application(app_id: int):
+    """Moves an application to the previous stage."""
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT stage FROM applications WHERE id = ?", (app_id,))
+    row = cur.fetchone()
+    if not row:
+        conn.close()
+        return None
+
+    current_stage = row[0]
+    if current_stage in KANBAN_COLUMNS:
+        idx = KANBAN_COLUMNS.index(current_stage)
+        if idx > 0:
+            prev_stage = KANBAN_COLUMNS[idx - 1]
+            cur.execute("UPDATE applications SET stage = ? WHERE id = ?", (prev_stage, app_id))
+            conn.commit()
+            conn.close()
+            return prev_stage
+    conn.close()
+    return current_stage
+
+
+# --------------------------------------------------
+# Company Question Vault
+# --------------------------------------------------
+
+def add_company_question(company: str, role: str, round_type: str, question_text: str, difficulty: str = "Medium", notes: str = ""):
+    """Saves an actual question asked by a company during a placement round."""
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT INTO company_questions (company, role, round_type, question_text, difficulty, notes)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (company.strip(), role.strip(), round_type.strip(), question_text.strip(), difficulty.strip(), notes.strip()))
+    conn.commit()
+    q_id = cur.lastrowid
+    conn.close()
+    return q_id
+
+
+def get_company_questions(company: str = None):
+    """Fetches stored company interview questions."""
+    conn = get_connection()
+    cur = conn.cursor()
+    if company:
+        cur.execute("""
+            SELECT id, company, role, round_type, question_text, difficulty, notes, created_date
+            FROM company_questions
+            WHERE LOWER(company) LIKE LOWER(?)
+            ORDER BY id DESC
+        """, (f"%{company.strip()}%",))
+    else:
+        cur.execute("""
+            SELECT id, company, role, round_type, question_text, difficulty, notes, created_date
+            FROM company_questions
+            ORDER BY id DESC
+        """)
+    rows = cur.fetchall()
+    conn.close()
+
+    return [{
+        "id": r[0],
+        "company": r[1],
+        "role": r[2],
+        "round_type": r[3],
+        "question_text": r[4],
+        "difficulty": r[5],
+        "notes": r[6],
+        "created_date": r[7],
+    } for r in rows]
+
+
+def delete_company_question(q_id: int):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM company_questions WHERE id = ?", (q_id,))
+    conn.commit()
+    conn.close()
 
 
 # --------------------------------------------------

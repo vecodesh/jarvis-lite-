@@ -8,9 +8,17 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Local SQLite databases (runtime data, schema is created via database/init_db.py)
+# Local SQLite databases (runtime data, schema created dynamically)
 *.db
 *.sqlite3
+
+# Runtime exports & backups
+backups/
+exports/
+
+# Scratch & test files
+test.py
+test1.py
 
 # IDE / OS files
 .DS_Store

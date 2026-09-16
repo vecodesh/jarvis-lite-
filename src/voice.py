@@ -10,6 +10,7 @@ keeping the frozen V1 core isolated and untouched.
 """
 
 import sys
+import time
 import threading
 from pathlib import Path
 
@@ -39,6 +40,25 @@ except ImportError:
 # --------------------------------------------------
 
 _tts_lock = threading.Lock()
+_preferred_voice_id = None
+
+
+def get_available_voices() -> list[dict]:
+    """Returns list of installed Windows SAPI5 TTS voices."""
+    if not TTS_AVAILABLE:
+        return []
+    try:
+        engine = pyttsx3.init()
+        voices = engine.getProperty("voices")
+        return [{"id": v.id, "name": v.name} for v in voices]
+    except Exception:
+        return []
+
+
+def set_voice_preference(voice_id: str):
+    """Sets the preferred TTS voice ID."""
+    global _preferred_voice_id
+    _preferred_voice_id = voice_id
 
 
 def speak(text, async_mode=True):
@@ -57,6 +77,8 @@ def speak(text, async_mode=True):
         with _tts_lock:
             try:
                 engine = pyttsx3.init()
+                if _preferred_voice_id:
+                    engine.setProperty("voice", _preferred_voice_id)
                 engine.setProperty("rate", 175)     # Natural speaking speed
                 engine.setProperty("volume", 0.9)   # Volume level
                 engine.say(text)
@@ -128,6 +150,54 @@ def listen_to_microphone(timeout=10, phrase_time_limit=15, status_callback=None,
         return None, f"Recognition service error (check internet connection): {e}"
     except Exception as e:
         return None, f"Microphone error: {e}"
+
+
+try:
+    import winsound
+    WINSOUND_AVAILABLE = True
+except ImportError:
+    WINSOUND_AVAILABLE = False
+
+
+def play_chime():
+    """Plays an understated Stark-style futuristic alert chime."""
+    if WINSOUND_AVAILABLE:
+        try:
+            # Gentle double pulse chime (880Hz -> 1760Hz)
+            winsound.Beep(880, 70)
+            winsound.Beep(1760, 110)
+        except Exception:
+            try:
+                winsound.MessageBeep(winsound.MB_ICONASTERISK)
+            except Exception:
+                pass
+
+
+def listen_for_wake_word(trigger_phrases=("hey jarvis", "jarvis"), stop_event=None, on_wake=None):
+    """
+    Continuous background loop that listens for trigger phrases.
+    Calls on_wake() whenever 'hey jarvis' or 'jarvis' is detected.
+    """
+    if not STT_AVAILABLE:
+        return
+
+    recognizer = sr.Recognizer()
+    recognizer.dynamic_energy_threshold = True
+
+    while stop_event is None or not stop_event.is_set():
+        try:
+            with sr.Microphone() as source:
+                recognizer.adjust_for_ambient_noise(source, duration=0.3)
+                audio = recognizer.listen(source, timeout=3, phrase_time_limit=4)
+            text = recognizer.recognize_google(audio).lower()
+            if any(phrase in text for phrase in trigger_phrases):
+                play_chime()
+                if on_wake:
+                    on_wake(text)
+        except (sr.WaitTimeoutError, sr.UnknownValueError):
+            continue
+        except Exception as e:
+            time.sleep(1)
 
 
 def transcribe_audio_file(audio_file_path):

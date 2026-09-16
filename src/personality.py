@@ -194,7 +194,7 @@ def get_confirmation_message(extracted_data):
         elif status == "in_progress":
             return f"Noted {name} in progress."
 
-    return "Updated your memory."
+    return "I'm right here with you, sir. Systems are nominal. We can review your Battle Plan, jump into the Striver Sheet, or launch a deep work sprint."
 
 
 if __name__ == "__main__":

@@ -6,6 +6,44 @@ from datetime import datetime
 from remainder import show_reminders
 
 try:
+    from intent_router import (
+        classify_intent,
+        INTENT_NAVIGATE,
+        INTENT_ACTION,
+        INTENT_CHAT,
+        INTENT_REMINDER,
+        INTENT_QA,
+        INTENT_BRIEFING,
+        INTENT_MOCK,
+        INTENT_LOG,
+        INTENT_SYSTEM,
+        get_navigation_target,
+        get_action_target,
+    )
+    from tutor import answer_placement_question
+    from reminder_service import parse_natural_time, add_reminder
+    from briefing import generate_morning_briefing
+    from system_control import execute_system_command
+except ImportError:
+    classify_intent = lambda t: "LOG_PROGRESS"
+    INTENT_NAVIGATE = "NAVIGATE_APP"
+    INTENT_ACTION = "TRIGGER_ACTION"
+    INTENT_CHAT = "GENERAL_CHAT"
+    INTENT_REMINDER = "SET_REMINDER"
+    INTENT_QA = "TECHNICAL_QA"
+    INTENT_BRIEFING = "MORNING_BRIEFING"
+    INTENT_MOCK = "MOCK_INTERVIEW"
+    INTENT_LOG = "LOG_PROGRESS"
+    INTENT_SYSTEM = "SYSTEM_COMMAND"
+    get_navigation_target = lambda t: None
+    get_action_target = lambda t: None
+    answer_placement_question = lambda q: "Ollama tutor module unavailable."
+    parse_natural_time = lambda t: (None, None)
+    add_reminder = lambda m, t: 0
+    generate_morning_briefing = lambda: {"written": "Briefing unavailable.", "spoken": "Briefing unavailable."}
+    execute_system_command = lambda c: (False, "System control unavailable.")
+
+try:
     from personality import proactive_launch_greeting, get_confirmation_message
 except ImportError:
     proactive_launch_greeting = lambda **k: None
@@ -469,63 +507,152 @@ def extract_information(user_text):
 # --------------------------------------------------
 
 def process_input(user_text):
+    intent = classify_intent(user_text)
+
+    # 0. NAVIGATE_APP Intent (Voice Tab Switching)
+    if intent == INTENT_NAVIGATE:
+        target_tab = get_navigation_target(user_text)
+        tab_clean = target_tab.split(" ", 1)[-1] if target_tab else "Dashboard"
+        reply = f"Switching to {tab_clean}, sir."
+        spoken = f"Switching to {tab_clean}."
+        insert_log(user_text, json.dumps({"intent": intent, "tab": target_tab}))
+        print(f"\n{reply}")
+        return {"intent": intent, "reply": reply, "spoken": spoken, "tab": target_tab}
+
+    # 1. TRIGGER_ACTION Intent (Focus Timer, Battle Plan, Excalidraw, Cheat Sheet)
+    if intent == INTENT_ACTION:
+        action = get_action_target(user_text)
+        if action == "FOCUS_START":
+            reply = "Initiating Stark deep work sprint protocol."
+        elif action == "BATTLE_PLAN":
+            reply = "Opening today's 3-target Battle Plan."
+        elif action == "EVENING_DEBRIEF":
+            reply = "Compiling daily telemetry for your evening debrief."
+        elif action == "EXCALIDRAW":
+            reply = "Launching Excalidraw whiteboard in your browser."
+        elif action == "CHEAT_SHEET":
+            reply = "Opening company interview cheat sheet generator."
+        elif action == "BACKUP":
+            reply = "Initiating full database backup."
+        else:
+            reply = "Executing requested action, sir."
+        insert_log(user_text, json.dumps({"intent": intent, "action": action}))
+        print(f"\n{reply}")
+        return {"intent": intent, "reply": reply, "spoken": reply, "action": action}
+
+    # 2. GENERAL_CHAT Intent (Greetings, 'what can we do now', guidance, small talk)
+    if intent == INTENT_CHAT:
+        prompt = (
+            f"You are JARVIS, Tony Stark's personal AI executive assistant holding an ambitious final-year software engineering student accountable for campus placements.\n"
+            f"The user says: \"{user_text}\"\n\n"
+            f"TASK:\n"
+            f"Respond directly, concisely, and encouragingly in authentic British JARVIS tone.\n"
+            f"If they greet you, greet them back with calm confidence.\n"
+            f"If they ask what to do, guide them directly:\n"
+            f"- Open today's 3-target Battle Plan to clear their daily coding and CS revision goals\n"
+            f"- Go to Striver DSA Sheet to practice Dynamic Programming or Arrays with Excalidraw logic\n"
+            f"- Start a 25-minute deep work sprint\n"
+            f"Length: 2 to 3 concise sentences. Never say 'Updated your memory'. Speak directly to sir."
+        )
+        try:
+            resp = ollama.chat(
+                model=MODEL,
+                messages=[{"role": "user", "content": prompt}],
+                options={"temperature": 0.5}
+            )
+            chat_reply = resp["message"]["content"].strip()
+        except Exception:
+            clean = user_text.lower()
+            if any(g in clean for g in ["hello", "hi", "hey"]):
+                chat_reply = "Good day, sir. Systems are online and fully operational. What would you like to conquer today?"
+            elif "what can we do" in clean or "help" in clean:
+                chat_reply = "Sir, we have your 3-target Battle Plan ready, 26 Striver placement problems in the DSA Sheet, or we can launch a 25-minute deep work sprint. Where shall we begin?"
+            else:
+                chat_reply = "I am standing by, sir. Ready to assist with your coding, placements, or daily discipline targets."
+
+        insert_log(user_text, json.dumps({"intent": intent, "chat": True}))
+        print(f"\n{chat_reply}")
+        return {"intent": intent, "reply": chat_reply, "spoken": chat_reply}
+
+    # 3. SYSTEM_COMMAND Intent (Workstation Controls & Telemetry)
+    if intent == INTENT_SYSTEM:
+        ok, msg = execute_system_command(user_text)
+        insert_log(user_text, json.dumps({"intent": intent, "success": ok, "msg": msg}))
+        print(f"\n{msg}")
+        return {"intent": intent, "reply": msg, "spoken": msg}
+
+    # 1. SET_REMINDER Intent
+    if intent == INTENT_REMINDER:
+        dt, clean_msg = parse_natural_time(user_text)
+        if dt:
+            rem_id = add_reminder(clean_msg, dt)
+            reply = f"Scheduled reminder #{rem_id} for {dt.strftime('%I:%M %p')}: {clean_msg}."
+            insert_log(user_text, json.dumps({"intent": intent, "reminder_id": rem_id, "time": str(dt), "msg": clean_msg}))
+            print(f"\n{reply}")
+            return {"intent": intent, "reply": reply, "reminder_id": rem_id, "time": str(dt)}
+
+    # 2. MORNING_BRIEFING Intent
+    if intent == INTENT_BRIEFING:
+        b = generate_morning_briefing()
+        insert_log(user_text, json.dumps({"intent": intent, "briefing": True}))
+        print(f"\n{b['written']}")
+        return {"intent": intent, "reply": b["written"], "spoken": b["spoken"]}
+
+    # 3. MOCK_INTERVIEW Intent
+    if intent == INTENT_MOCK:
+        reply = "Opening Placement Mock Interview Studio. Choose your target topic and let's begin your drill."
+        insert_log(user_text, json.dumps({"intent": intent, "mock": True}))
+        print(f"\n{reply}")
+        return {"intent": intent, "reply": reply}
+
+    # 4. TECHNICAL_QA Intent (Placement Technical Tutor)
+    if intent == INTENT_QA:
+        print("\nConsulting technical placement archive...")
+        ans = answer_placement_question(user_text)
+        insert_log(user_text, json.dumps({"intent": intent, "answer": ans}))
+        print(f"\n{ans}")
+        short_spoken = ans[:160] + ("..." if len(ans) > 160 else "")
+        return {"intent": intent, "reply": ans, "spoken": short_spoken}
+
+    # 5. Default: LOG_PROGRESS (Extract Subjects, Topics, Tasks)
     print("\nThinking...")
 
     try:
         data = extract_information(user_text)
-
     except Exception as error:
-        print(f"\nAI error: {error}")
-        return
+        err_msg = f"AI error: {error}"
+        print(f"\n{err_msg}")
+        return {"intent": intent, "reply": err_msg, "error": True}
 
     print("\nExtracted:")
     print(json.dumps(data, indent=2))
 
-    # --------------------------------------------------
     # Save original message FIRST
-    # --------------------------------------------------
-
     parsed_summary = json.dumps(data)
-
     insert_log(user_text, parsed_summary)
 
-    # --------------------------------------------------
     # Subjects
-    # --------------------------------------------------
-
     subject_ids = {}
-
     for subject in data.get("subjects", []):
         subject_name = subject.get("name")
-
         if not subject_name:
             continue
-
         subject_id = get_or_create_subject(subject_name)
         subject_ids[subject_name] = subject_id
 
-    # --------------------------------------------------
     # Topics
-    # --------------------------------------------------
-
     for topic in data.get("topics", []):
         topic_name = topic.get("name")
         status = topic.get("status")
-
         if not topic_name:
             continue
 
-        # If there is only one subject, associate the topic
-        # with that subject.
         if len(subject_ids) == 1:
             subject_id = next(iter(subject_ids.values()))
             insert_topic(subject_id, topic_name, status)
         else:
-            # No subject mentioned.
-            # Try to find an existing topic with this name.
             connection = get_connection()
             cursor = connection.cursor()
-
             cursor.execute(
                 """
                 SELECT subject_id
@@ -535,7 +662,6 @@ def process_input(user_text):
                 """,
                 (topic_name.strip(),)
             )
-
             result = cursor.fetchone()
             connection.close()
 
@@ -543,27 +669,22 @@ def process_input(user_text):
                 subject_id = result[0]
                 insert_topic(subject_id, topic_name, status)
             else:
-                # No subject was given and topic is new: assign to a default subject
                 subject_id = get_or_create_subject("General")
                 insert_topic(subject_id, topic_name, status)
 
-    # --------------------------------------------------
     # Tasks
-    # --------------------------------------------------
-
     for task in data.get("tasks", []):
         task_name = task.get("name")
         status = task.get("status")
         category = task.get("category")
-
         if not task_name:
             continue
-
         task_name = clean_task_name(task_name)
         insert_task(task_name, status, category)
 
     reply = get_confirmation_message(data)
     print(f"\n{reply}")
+    return {"intent": intent, "reply": reply, "data": data}
 
 # --------------------------------------------------
 # Mrking Item as done
