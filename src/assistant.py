@@ -5,6 +5,12 @@ from pathlib import Path
 from datetime import datetime
 from remainder import show_reminders
 
+try:
+    from personality import proactive_launch_greeting, get_confirmation_message
+except ImportError:
+    proactive_launch_greeting = lambda **k: None
+    get_confirmation_message = lambda d: "✓ Remembered."
+
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     try:
         sys.stdout.reconfigure(encoding="utf-8")
@@ -556,7 +562,8 @@ def process_input(user_text):
         task_name = clean_task_name(task_name)
         insert_task(task_name, status, category)
 
-    print("\n✓ Remembered.")
+    reply = get_confirmation_message(data)
+    print(f"\n{reply}")
 
 # --------------------------------------------------
 # Mrking Item as done
@@ -670,6 +677,10 @@ def main():
     print("       JARVIS-lite")
     print("===================================")
     print("Local AI Study/Life Assistant")
+
+    # Proactive greeting on startup (speaks by default unless --no-voice is specified)
+    voice_enabled = "--no-voice" not in sys.argv
+    proactive_launch_greeting(voice_enabled=voice_enabled)
 
     while True:
         print("\n===================================")

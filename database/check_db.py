@@ -1,5 +1,12 @@
+import sys
 import sqlite3
 from pathlib import Path
+
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 DB_PATH = Path(__file__).parent / "assistant.db"
 
