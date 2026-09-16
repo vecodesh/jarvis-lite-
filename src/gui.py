@@ -416,12 +416,15 @@ class JarvisGUI(tk.Tk):
 
         self.voice_btn.config(state=tk.DISABLED)
         self.send_btn.config(state=tk.DISABLED)
-        self.status_lbl.config(text="🎤 Listening... Speak into your microphone")
+        self.status_lbl.config(text="Calibrating microphone...")
 
         threading.Thread(target=self._async_voice_input, daemon=True).start()
 
     def _async_voice_input(self):
-        text, err = listen_to_microphone(timeout=5, phrase_time_limit=8)
+        def update_status(msg):
+            self.after(0, lambda: self.status_lbl.config(text=msg))
+
+        text, err = listen_to_microphone(timeout=10, phrase_time_limit=15, status_callback=update_status)
         self.after(0, lambda: self._on_voice_input_completed(text, err))
 
     def _on_voice_input_completed(self, text, err):
@@ -430,7 +433,7 @@ class JarvisGUI(tk.Tk):
         self.status_lbl.config(text="Ready")
 
         if err:
-            self._append_chat(f"System: Voice input error — {err}")
+            self._append_chat(f"System: {err}")
             return
 
         if text:
