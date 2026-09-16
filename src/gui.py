@@ -139,7 +139,7 @@ except ImportError:
     get_available_voices = lambda: []
     set_voice_preference = lambda v: None
 
-ctk.set_appearance_mode("dark")
+ctk.set_appearance_mode("light")
 ctk.set_default_color_theme("blue")
 
 
@@ -150,7 +150,7 @@ class JarvisGUI(ctk.CTk):
         self.title("JARVIS-lite — Placement & Career Console")
         self.geometry("1400x880")
         self.minsize(1100, 720)
-        self.configure(fg_color="#0f1117")
+        self.configure(fg_color="#f0f4f8")
 
         self.tts_enabled = tk.BooleanVar(value=True)
         self.wake_enabled = tk.BooleanVar(value=False)
@@ -209,34 +209,34 @@ class JarvisGUI(ctk.CTk):
 
         self.style.configure(
             "Treeview",
-            background="#1a1d27",
-            foreground="#f1f5f9",
-            fieldbackground="#1a1d27",
+            background="#ffffff",
+            foreground="#0f172a",
+            fieldbackground="#ffffff",
             rowheight=30,
             font=("Segoe UI", 10),
             borderwidth=0,
         )
         self.style.configure(
             "Treeview.Heading",
-            background="#242838",
-            foreground="#4f8ef7",
+            background="#f1f5f9",
+            foreground="#2563eb",
             relief="flat",
             font=("Segoe UI", 10, "bold"),
         )
-        self.style.map("Treeview", background=[("selected", "#4f8ef7")], foreground=[("selected", "#ffffff")])
+        self.style.map("Treeview", background=[("selected", "#2563eb")], foreground=[("selected", "#ffffff")])
 
     # --------------------------------------------------
     # Top HUD Bar with Live CPU/RAM & Career Telemetry
     # --------------------------------------------------
     def _build_top_hud(self):
-        top_bar = ctk.CTkFrame(self, height=62, fg_color="#0d1018", corner_radius=0, border_width=0)
+        top_bar = ctk.CTkFrame(self, height=62, fg_color="#ffffff", corner_radius=0, border_width=1, border_color="#e2e8f0")
         top_bar.pack(side=tk.TOP, fill=tk.X)
 
         brand_frame = ctk.CTkFrame(top_bar, fg_color="transparent")
         brand_frame.pack(side=tk.LEFT, padx=14, pady=6)
 
-        ctk.CTkLabel(brand_frame, text="⚡", font=("Segoe UI", 20, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT, padx=(0, 8))
-        ctk.CTkLabel(brand_frame, text="JARVIS-LITE", font=("Segoe UI", 16, "bold"), text_color="#f1f5f9").pack(side=tk.LEFT)
+        ctk.CTkLabel(brand_frame, text="⚡", font=("Segoe UI", 20, "bold"), text_color="#2563eb").pack(side=tk.LEFT, padx=(0, 8))
+        ctk.CTkLabel(brand_frame, text="JARVIS-LITE", font=("Segoe UI", 16, "bold"), text_color="#0f172a").pack(side=tk.LEFT)
         ctk.CTkLabel(brand_frame, text="  Career Console", font=("Segoe UI", 11), text_color="#64748b").pack(side=tk.LEFT, padx=(6, 0))
 
         # Center: Telemetry Badges
@@ -248,8 +248,8 @@ class JarvisGUI(ctk.CTk):
             telemetry_frame,
             text="CPU: --%",
             font=("Segoe UI", 10, "bold"),
-            fg_color="#242838",
-            text_color="#4f8ef7",
+            fg_color="#f1f5f9",
+            text_color="#2563eb",
             corner_radius=6,
             padx=8,
             pady=3,
@@ -260,8 +260,8 @@ class JarvisGUI(ctk.CTk):
             telemetry_frame,
             text="RAM: --%",
             font=("Segoe UI", 10, "bold"),
-            fg_color="#242838",
-            text_color="#4f8ef7",
+            fg_color="#f1f5f9",
+            text_color="#2563eb",
             corner_radius=6,
             padx=8,
             pady=3,
@@ -273,7 +273,7 @@ class JarvisGUI(ctk.CTk):
             telemetry_frame,
             text="🔥 --d",
             font=("Segoe UI", 10, "bold"),
-            fg_color="#242838",
+            fg_color="#f1f5f9",
             text_color="#f59e0b",
             corner_radius=6,
             padx=8,
@@ -285,8 +285,8 @@ class JarvisGUI(ctk.CTk):
             telemetry_frame,
             text="🎯 --%",
             font=("Segoe UI", 10, "bold"),
-            fg_color="#242838",
-            text_color="#22c55e",
+            fg_color="#f1f5f9",
+            text_color="#16a34a",
             corner_radius=6,
             padx=8,
             pady=3,
@@ -297,7 +297,7 @@ class JarvisGUI(ctk.CTk):
             telemetry_frame,
             text="⏰ --",
             font=("Segoe UI", 10, "bold"),
-            fg_color="#242838",
+            fg_color="#f1f5f9",
             text_color="#a855f7",
             corner_radius=6,
             padx=8,
@@ -310,7 +310,7 @@ class JarvisGUI(ctk.CTk):
             text="⏱️ 25:00 [Focus]",
             command=self._on_toggle_focus_timer,
             font=("Segoe UI", 10, "bold"),
-            fg_color="#242838",
+            fg_color="#f1f5f9",
             hover_color="#4f8ef7",
             text_color="#f59e0b",
             corner_radius=6,
@@ -342,9 +342,9 @@ class JarvisGUI(ctk.CTk):
             btn_container,
             text="💾 Backup",
             command=self._on_backup_data,
-            fg_color="#242838",
-            hover_color="#2e3347",
-            text_color="#94a3b8",
+            fg_color="#f1f5f9",
+            hover_color="#dde3ea",
+            text_color="#64748b",
             font=("Segoe UI", 10),
             corner_radius=6,
             height=34,
@@ -357,8 +357,8 @@ class JarvisGUI(ctk.CTk):
             btn_container,
             text="⚡ Briefing",
             command=self._on_trigger_briefing,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             text_color="#ffffff",
             font=("Segoe UI", 10, "bold"),
             corner_radius=6,
@@ -371,9 +371,9 @@ class JarvisGUI(ctk.CTk):
             btn_container,
             text="🔄",
             command=self.refresh_all_data,
-            fg_color="#242838",
-            hover_color="#2e3347",
-            text_color="#94a3b8",
+            fg_color="#f1f5f9",
+            hover_color="#dde3ea",
+            text_color="#64748b",
             font=("Segoe UI", 10),
             corner_radius=6,
             height=34,
@@ -388,12 +388,12 @@ class JarvisGUI(ctk.CTk):
     def _build_tabview(self):
         self.tabview = ctk.CTkTabview(
             self,
-            fg_color="#0f1117",
-            segmented_button_fg_color="#1a1d27",
+            fg_color="#f0f4f8",
+            segmented_button_fg_color="#ffffff",
             segmented_button_selected_color="#4f8ef7",
-            segmented_button_selected_hover_color="#3b7de8",
-            segmented_button_unselected_hover_color="#242838",
-            text_color="#94a3b8",
+            segmented_button_selected_hover_color="#1d4ed8",
+            segmented_button_unselected_hover_color="#dde3ea",
+            text_color="#64748b",
             corner_radius=10,
         )
         self.tabview.pack(fill=tk.BOTH, expand=True, padx=12, pady=(6, 10))
@@ -426,11 +426,11 @@ class JarvisGUI(ctk.CTk):
     def _build_tab_console(self):
         parent = self.tab_console
 
-        hud_canvas_frame = ctk.CTkFrame(parent, fg_color="#13161f", height=90, corner_radius=10, border_width=1, border_color="#2e3347")
+        hud_canvas_frame = ctk.CTkFrame(parent, fg_color="#f8fafc", height=90, corner_radius=10, border_width=1, border_color="#e2e8f0")
         hud_canvas_frame.pack(fill=tk.X, padx=6, pady=(2, 4))
         hud_canvas_frame.pack_propagate(False)
 
-        self.hud_canvas = tk.Canvas(hud_canvas_frame, bg="#13161f", highlightthickness=0, height=86)
+        self.hud_canvas = tk.Canvas(hud_canvas_frame, bg="#ffffff", highlightthickness=0, height=86)
         self.hud_canvas.pack(fill=tk.BOTH, expand=True)
 
         chips_frame = ctk.CTkFrame(parent, fg_color="transparent")
@@ -449,9 +449,9 @@ class JarvisGUI(ctk.CTk):
                 chips_frame,
                 text=label,
                 command=lambda t=full_text: self._send_quick_prompt(t),
-                fg_color="#242838",
+                fg_color="#f1f5f9",
                 hover_color="#4f8ef7",
-                text_color="#94a3b8",
+                text_color="#64748b",
                 font=("Segoe UI", 10),
                 corner_radius=14,
                 height=32,
@@ -471,11 +471,11 @@ class JarvisGUI(ctk.CTk):
             ctrl_strip,
             values=voice_names,
             command=self._on_change_tts_voice,
-            fg_color="#1a1d27",
-            button_color="#242838",
-            font=("Segoe UI", 8),
-            width=190,
-            height=20,
+            fg_color="#ffffff",
+            button_color="#2563eb",
+            font=("Segoe UI", 10),
+            width=200,
+            height=24,
         )
         self.voice_picker.pack(side=tk.LEFT, padx=2)
         if voices:
@@ -491,7 +491,7 @@ class JarvisGUI(ctk.CTk):
             text="🗑️ Clear",
             command=self._on_clear_chat,
             fg_color="transparent",
-            hover_color="#242838",
+            hover_color="#dde3ea",
             text_color="#64748b",
             font=("Segoe UI", 8),
             height=20,
@@ -504,7 +504,7 @@ class JarvisGUI(ctk.CTk):
             text="💾 Save Log",
             command=self._on_save_chat_log,
             fg_color="transparent",
-            hover_color="#242838",
+            hover_color="#dde3ea",
             text_color="#64748b",
             font=("Segoe UI", 8),
             height=20,
@@ -516,9 +516,9 @@ class JarvisGUI(ctk.CTk):
             parent,
             height=14,
             font=("Segoe UI", 10),
-            bg="#13161f",
-            fg="#f1f5f9",
-            insertbackground="#4f8ef7",
+            bg="#ffffff",
+            fg="#0f172a",
+            insertbackground="#2563eb",
             wrap="word",
             relief="flat",
             bd=0,
@@ -527,10 +527,10 @@ class JarvisGUI(ctk.CTk):
         )
         self.chat_history.pack(fill=tk.BOTH, expand=True, padx=6, pady=(0, 4))
 
-        self.chat_history.tag_configure("jarvis", foreground="#4f8ef7", font=("Segoe UI", 10, "bold"))
-        self.chat_history.tag_configure("user", foreground="#f1f5f9", font=("Segoe UI", 10, "bold"))
-        self.chat_history.tag_configure("system", foreground="#fb923c", font=("Segoe UI", 10, "italic"))
-        self.chat_history.tag_configure("body", foreground="#cbd5e1", font=("Segoe UI", 10))
+        self.chat_history.tag_configure("jarvis", foreground="#2563eb", font=("Segoe UI", 10, "bold"))
+        self.chat_history.tag_configure("user", foreground="#0f172a", font=("Segoe UI", 10, "bold"))
+        self.chat_history.tag_configure("system", foreground="#ea580c", font=("Segoe UI", 10, "italic"))
+        self.chat_history.tag_configure("body", foreground="#334155", font=("Segoe UI", 10))
 
         input_row = ctk.CTkFrame(parent, fg_color="transparent")
         input_row.pack(fill=tk.X, padx=6, pady=(0, 4))
@@ -539,9 +539,9 @@ class JarvisGUI(ctk.CTk):
             input_row,
             placeholder_text="Ask anything — commands, questions, reminders, study notes...",
             font=("Segoe UI", 11),
-            fg_color="#1a1d27",
-            border_color="#4f8ef7",
-            text_color="#f1f5f9",
+            fg_color="#ffffff",
+            border_color="#2563eb",
+            text_color="#0f172a",
             corner_radius=8,
             height=40,
         )
@@ -552,8 +552,8 @@ class JarvisGUI(ctk.CTk):
             input_row,
             text="🎤 Mic (Ctrl+Space)",
             command=self._on_voice_input,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             text_color="#ffffff",
             font=("Segoe UI", 10, "bold"),
             corner_radius=8,
@@ -567,8 +567,8 @@ class JarvisGUI(ctk.CTk):
             input_row,
             text="Send ➤",
             command=self._on_send_chat,
-            fg_color="#4f8ef7",
-            hover_color="#3b7de8",
+            fg_color="#2563eb",
+            hover_color="#1d4ed8",
             text_color="#ffffff",
             font=("Segoe UI", 10, "bold"),
             corner_radius=8,
@@ -581,7 +581,7 @@ class JarvisGUI(ctk.CTk):
         status_row = ctk.CTkFrame(parent, fg_color="transparent")
         status_row.pack(fill=tk.X, padx=6, pady=(2, 4))
 
-        self.status_lbl = ctk.CTkLabel(status_row, text="● Ready", font=("Segoe UI", 10), text_color="#4f8ef7")
+        self.status_lbl = ctk.CTkLabel(status_row, text="● Ready", font=("Segoe UI", 10), text_color="#2563eb")
         self.status_lbl.pack(side=tk.LEFT)
 
         self.wake_switch = ctk.CTkSwitch(
@@ -631,10 +631,10 @@ class JarvisGUI(ctk.CTk):
     def _build_tab_coding(self):
         parent = self.tab_coding
 
-        top_ctrl = ctk.CTkFrame(parent, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        top_ctrl = ctk.CTkFrame(parent, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         top_ctrl.pack(fill=tk.X, padx=6, pady=4)
 
-        ctk.CTkLabel(top_ctrl, text="Problem:", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT, padx=8, pady=6)
+        ctk.CTkLabel(top_ctrl, text="Problem:", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(side=tk.LEFT, padx=8, pady=6)
 
         self.curated_problems = get_curated_problems()
         prob_titles = [p["title"] for p in self.curated_problems]
@@ -642,8 +642,8 @@ class JarvisGUI(ctk.CTk):
             top_ctrl,
             values=prob_titles,
             command=self._on_select_problem,
-            fg_color="#242838",
-            button_color="#4f8ef7",
+            fg_color="#f1f5f9",
+            button_color="#2563eb",
             width=200,
             height=32,
         )
@@ -653,7 +653,7 @@ class JarvisGUI(ctk.CTk):
             top_ctrl,
             values=["Python", "C++"],
             command=self._on_change_coding_lang,
-            fg_color="#242838",
+            fg_color="#f1f5f9",
             button_color="#0f766e",
             width=90,
             height=32,
@@ -664,9 +664,9 @@ class JarvisGUI(ctk.CTk):
             top_ctrl,
             text="🎲 AI Problem",
             command=self._on_ai_gen_problem,
-            fg_color="#242838",
-            hover_color="#2e3347",
-            text_color="#94a3b8",
+            fg_color="#f1f5f9",
+            hover_color="#dde3ea",
+            text_color="#64748b",
             font=("Segoe UI", 10),
             height=32,
             width=90,
@@ -678,8 +678,8 @@ class JarvisGUI(ctk.CTk):
             top_ctrl,
             text="▶️ Run Code",
             command=self._on_run_python_code,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             text_color="#022c22",
             font=("Segoe UI", 10, "bold"),
             height=32,
@@ -692,9 +692,9 @@ class JarvisGUI(ctk.CTk):
             top_ctrl,
             text="↺ Reset",
             command=self._on_reset_problem_code,
-            fg_color="#242838",
-            hover_color="#2e3347",
-            text_color="#94a3b8",
+            fg_color="#f1f5f9",
+            hover_color="#dde3ea",
+            text_color="#64748b",
             font=("Segoe UI", 10),
             height=32,
             width=70,
@@ -706,8 +706,8 @@ class JarvisGUI(ctk.CTk):
             top_ctrl,
             text="⚡ AI Review",
             command=self._on_run_code_review,
-            fg_color="#4f8ef7",
-            hover_color="#3b7de8",
+            fg_color="#2563eb",
+            hover_color="#1d4ed8",
             text_color="#ffffff",
             font=("Segoe UI", 10, "bold"),
             height=32,
@@ -720,18 +720,18 @@ class JarvisGUI(ctk.CTk):
         paned.pack(fill=tk.BOTH, expand=True, padx=6, pady=4)
 
         # Left: Problem Description & Test Harness
-        left_box = ctk.CTkFrame(paned, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        left_box = ctk.CTkFrame(paned, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         paned.add(left_box, weight=1)
 
-        self.prob_title_lbl = ctk.CTkLabel(left_box, text="Two Sum (Easy)", font=("Segoe UI", 12, "bold"), text_color="#4f8ef7")
+        self.prob_title_lbl = ctk.CTkLabel(left_box, text="Two Sum (Easy)", font=("Segoe UI", 12, "bold"), text_color="#2563eb")
         self.prob_title_lbl.pack(anchor="w", padx=10, pady=(8, 2))
 
         self.prob_desc_text = scrolledtext.ScrolledText(
             left_box,
             height=5,
             font=("Segoe UI", 10),
-            bg="#13161f",
-            fg="#f1f5f9",
+            bg="#ffffff",
+            fg="#0f172a",
             wrap="word",
             relief="flat",
             bd=0,
@@ -741,18 +741,18 @@ class JarvisGUI(ctk.CTk):
         self.prob_desc_text.pack(fill=tk.BOTH, expand=True, padx=10, pady=4)
 
         # Right: Candidate Code Editor
-        right_box = ctk.CTkFrame(paned, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        right_box = ctk.CTkFrame(paned, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         paned.add(right_box, weight=1)
 
-        ctk.CTkLabel(right_box, text="CODE EDITOR (Python / C++):", font=("Segoe UI", 11, "bold"), text_color="#4f8ef7").pack(anchor="w", padx=10, pady=(8, 2))
+        ctk.CTkLabel(right_box, text="CODE EDITOR (Python / C++):", font=("Segoe UI", 11, "bold"), text_color="#2563eb").pack(anchor="w", padx=10, pady=(8, 2))
 
         self.code_editor = scrolledtext.ScrolledText(
             right_box,
             height=10,
             font=("Consolas", 10),
-            bg="#0d1117",
-            fg="#e6edf3",
-            insertbackground="#4f8ef7",
+            bg="#f8fafc",
+            fg="#24292f",
+            insertbackground="#2563eb",
             relief="flat",
             bd=0,
             padx=12,
@@ -762,24 +762,24 @@ class JarvisGUI(ctk.CTk):
         self.code_editor.bind("<Tab>", self._on_editor_tab)
 
         # Bottom: Execution Output Terminal & AI Review
-        rev_box = ctk.CTkFrame(parent, fg_color="#1a1d27", height=130, corner_radius=6, border_width=1, border_color="#2e3347")
+        rev_box = ctk.CTkFrame(parent, fg_color="#ffffff", height=130, corner_radius=6, border_width=1, border_color="#e2e8f0")
         rev_box.pack(fill=tk.X, padx=6, pady=(0, 4))
         rev_box.pack_propagate(False)
 
         rev_hdr = ctk.CTkFrame(rev_box, fg_color="transparent")
         rev_hdr.pack(fill=tk.X, padx=10, pady=4)
 
-        ctk.CTkLabel(rev_hdr, text="EXECUTION OUTPUT & AI REVIEW:", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT)
+        ctk.CTkLabel(rev_hdr, text="EXECUTION OUTPUT & AI REVIEW:", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(side=tk.LEFT)
 
-        self.complexity_badge = ctk.CTkLabel(rev_hdr, text="Runtime: -- | Verdict: --", font=("Segoe UI", 10, "bold"), fg_color="#242838", text_color="#22c55e", corner_radius=4, padx=8, pady=2)
+        self.complexity_badge = ctk.CTkLabel(rev_hdr, text="Runtime: -- | Verdict: --", font=("Segoe UI", 10, "bold"), fg_color="#f1f5f9", text_color="#16a34a", corner_radius=4, padx=8, pady=2)
         self.complexity_badge.pack(side=tk.RIGHT)
 
         self.code_review_text = scrolledtext.ScrolledText(
             rev_box,
             height=4,
             font=("Segoe UI", 10),
-            bg="#13161f",
-            fg="#f1f5f9",
+            bg="#ffffff",
+            fg="#0f172a",
             wrap="word",
             relief="flat",
             bd=0,
@@ -897,7 +897,7 @@ class JarvisGUI(ctk.CTk):
         s_comp = res.get("space_complexity", "Unknown")
         verdict = res.get("verdict", "Evaluated")
 
-        self.complexity_badge.configure(text=f"Time: {t_comp} | Space: {s_comp} | {verdict}", text_color="#22c55e")
+        self.complexity_badge.configure(text=f"Time: {t_comp} | Space: {s_comp} | {verdict}", text_color="#16a34a")
 
         self.code_review_text.configure(state=tk.NORMAL)
         self.code_review_text.delete("1.0", tk.END)
@@ -926,31 +926,31 @@ class JarvisGUI(ctk.CTk):
         parent = self.tab_dsa
 
         # Top Control Bar
-        top_ctrl = ctk.CTkFrame(parent, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        top_ctrl = ctk.CTkFrame(parent, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         top_ctrl.pack(fill=tk.X, padx=6, pady=4)
 
-        ctk.CTkLabel(top_ctrl, text="Topic:", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT, padx=(10, 4), pady=6)
+        ctk.CTkLabel(top_ctrl, text="Topic:", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(side=tk.LEFT, padx=(10, 4), pady=6)
 
         dsa_topics = get_dsa_topics()
         self.dsa_topic_menu = ctk.CTkOptionMenu(
             top_ctrl,
             values=dsa_topics,
             command=lambda v: self._load_dsa_problems(),
-            fg_color="#242838",
-            button_color="#4f8ef7",
+            fg_color="#f1f5f9",
+            button_color="#2563eb",
             font=("Segoe UI", 10),
             width=165,
             height=32,
         )
         self.dsa_topic_menu.pack(side=tk.LEFT, padx=4)
 
-        ctk.CTkLabel(top_ctrl, text="Status:", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT, padx=(8, 4))
+        ctk.CTkLabel(top_ctrl, text="Status:", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(side=tk.LEFT, padx=(8, 4))
 
         self.dsa_status_menu = ctk.CTkOptionMenu(
             top_ctrl,
             values=["All Statuses", "Unsolved", "Solved", "Stuck"],
             command=lambda v: self._load_dsa_problems(),
-            fg_color="#242838",
+            fg_color="#f1f5f9",
             button_color="#0f766e",
             font=("Segoe UI", 10),
             width=110,
@@ -984,8 +984,8 @@ class JarvisGUI(ctk.CTk):
             top_ctrl,
             text="Solved: -- / -- (0%)",
             font=("Segoe UI", 10, "bold"),
-            fg_color="#242838",
-            text_color="#22c55e",
+            fg_color="#f1f5f9",
+            text_color="#16a34a",
             corner_radius=4,
             padx=8,
             pady=3,
@@ -997,12 +997,12 @@ class JarvisGUI(ctk.CTk):
         paned.pack(fill=tk.BOTH, expand=True, padx=6, pady=4)
 
         # Left Column: Problem Catalog
-        l_col = ctk.CTkFrame(paned, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        l_col = ctk.CTkFrame(paned, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         paned.add(l_col, weight=5)
 
         l_hdr = ctk.CTkFrame(l_col, fg_color="transparent")
         l_hdr.pack(fill=tk.X, padx=8, pady=(8, 4))
-        ctk.CTkLabel(l_hdr, text="STRIVER A2Z PROBLEM SHEET", font=("Segoe UI", 11, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT)
+        ctk.CTkLabel(l_hdr, text="STRIVER A2Z PROBLEM SHEET", font=("Segoe UI", 11, "bold"), text_color="#2563eb").pack(side=tk.LEFT)
 
         # Treeview
         tree_frame = ctk.CTkFrame(l_col, fg_color="transparent")
@@ -1045,8 +1045,8 @@ class JarvisGUI(ctk.CTk):
             l_act,
             text="🌐 Open Problem",
             command=self._on_dsa_open_problem,
-            fg_color="#4f8ef7",
-            hover_color="#3b7de8",
+            fg_color="#2563eb",
+            hover_color="#1d4ed8",
             font=("Segoe UI", 10, "bold"),
             height=32,
             width=110,
@@ -1069,8 +1069,8 @@ class JarvisGUI(ctk.CTk):
             l_act,
             text="✓ Solved",
             command=lambda: self._on_dsa_mark_status("solved"),
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 10, "bold"),
             height=32,
             width=75,
@@ -1090,7 +1090,7 @@ class JarvisGUI(ctk.CTk):
         ).pack(side=tk.RIGHT, padx=3)
 
         # Right Column: Voice Dry-Run & Revision Notes Hub
-        r_col = ctk.CTkFrame(paned, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        r_col = ctk.CTkFrame(paned, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         paned.add(r_col, weight=6)
 
         # Selected Problem Header
@@ -1101,7 +1101,7 @@ class JarvisGUI(ctk.CTk):
             r_hdr,
             text="Select a Problem from the Sheet",
             font=("Segoe UI", 13, "bold"),
-            text_color="#4f8ef7",
+            text_color="#2563eb",
             anchor="w",
         )
         self.dsa_detail_title.pack(side=tk.LEFT)
@@ -1110,8 +1110,8 @@ class JarvisGUI(ctk.CTk):
             r_hdr,
             text="VERBAL CLARITY: --/10",
             font=("Segoe UI", 10, "bold"),
-            fg_color="#242838",
-            text_color="#4f8ef7",
+            fg_color="#f1f5f9",
+            text_color="#2563eb",
             corner_radius=4,
             padx=8,
             pady=2,
@@ -1135,8 +1135,8 @@ class JarvisGUI(ctk.CTk):
             v_row,
             text="🎙️ Explain Aloud (Voice Practice)",
             command=self._on_dsa_voice_dry_run,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 10, "bold"),
             height=34,
             cursor="hand2",
@@ -1147,8 +1147,8 @@ class JarvisGUI(ctk.CTk):
             v_row,
             text="⌨️ Type Notes",
             command=self._on_dsa_type_dry_run_modal,
-            fg_color="#242838",
-            hover_color="#2e3347",
+            fg_color="#f1f5f9",
+            hover_color="#dde3ea",
             font=("Segoe UI", 10),
             height=34,
             width=90,
@@ -1160,8 +1160,8 @@ class JarvisGUI(ctk.CTk):
             v_row,
             text="🔊 1-Min Audio Revision",
             command=self._on_dsa_read_aloud_notes,
-            fg_color="#4f8ef7",
-            hover_color="#3b7de8",
+            fg_color="#2563eb",
+            hover_color="#1d4ed8",
             font=("Segoe UI", 10, "bold"),
             height=34,
             cursor="hand2",
@@ -1169,7 +1169,7 @@ class JarvisGUI(ctk.CTk):
         self.dsa_audio_rev_btn.pack(side=tk.LEFT, padx=4)
 
         # Notes Display Tabs or Panes
-        notes_box = ctk.CTkFrame(r_col, fg_color="#13161f", corner_radius=6, border_width=1, border_color="#2e3347")
+        notes_box = ctk.CTkFrame(r_col, fg_color="#f8fafc", corner_radius=6, border_width=1, border_color="#e2e8f0")
         notes_box.pack(fill=tk.BOTH, expand=True, padx=10, pady=(2, 8))
 
         ctk.CTkLabel(notes_box, text="💡 INTUITION & CORE INVARIANT:", font=("Segoe UI", 10, "bold"), text_color="#f59e0b").pack(anchor="w", padx=8, pady=(6, 2))
@@ -1177,8 +1177,8 @@ class JarvisGUI(ctk.CTk):
             notes_box,
             height=3,
             font=("Segoe UI", 10),
-            bg="#1a1d27",
-            fg="#f1f5f9",
+            bg="#ffffff",
+            fg="#0f172a",
             wrap="word",
             relief="flat",
             bd=0,
@@ -1187,13 +1187,13 @@ class JarvisGUI(ctk.CTk):
         )
         self.dsa_intuition_text.pack(fill=tk.X, padx=8, pady=(0, 4))
 
-        ctk.CTkLabel(notes_box, text="🔍 STEP-BY-STEP DRY-RUN TRACE:", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(anchor="w", padx=8, pady=(2, 2))
+        ctk.CTkLabel(notes_box, text="🔍 STEP-BY-STEP DRY-RUN TRACE:", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(anchor="w", padx=8, pady=(2, 2))
         self.dsa_dryrun_text = scrolledtext.ScrolledText(
             notes_box,
             height=4,
             font=("Segoe UI", 10),
-            bg="#1a1d27",
-            fg="#f1f5f9",
+            bg="#ffffff",
+            fg="#0f172a",
             wrap="word",
             relief="flat",
             bd=0,
@@ -1206,16 +1206,16 @@ class JarvisGUI(ctk.CTk):
         bot_split = ctk.CTkFrame(notes_box, fg_color="transparent")
         bot_split.pack(fill=tk.X, padx=8, pady=(2, 6))
 
-        c_left = ctk.CTkFrame(bot_split, fg_color="#1a1d27", corner_radius=4, border_width=1, border_color="#2e3347")
+        c_left = ctk.CTkFrame(bot_split, fg_color="#ffffff", corner_radius=4, border_width=1, border_color="#e2e8f0")
         c_left.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 4))
         ctk.CTkLabel(c_left, text="COMPLEXITY & EDGE CASES", font=("Segoe UI", 10, "bold"), text_color="#a855f7").pack(anchor="w", padx=6, pady=2)
-        self.dsa_complexity_text = ctk.CTkLabel(c_left, text="Time: -- | Space: --\nEdge cases: None logged", font=("Segoe UI", 8), text_color="#94a3b8", justify="left")
+        self.dsa_complexity_text = ctk.CTkLabel(c_left, text="Time: -- | Space: --\nEdge cases: None logged", font=("Segoe UI", 8), text_color="#64748b", justify="left")
         self.dsa_complexity_text.pack(anchor="w", padx=6, pady=(0, 4))
 
-        c_right = ctk.CTkFrame(bot_split, fg_color="#1a1d27", corner_radius=4, border_width=1, border_color="#2e3347")
+        c_right = ctk.CTkFrame(bot_split, fg_color="#ffffff", corner_radius=4, border_width=1, border_color="#e2e8f0")
         c_right.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=(4, 0))
-        ctk.CTkLabel(c_right, text="INTERVIEW VERBAL COACHING", font=("Segoe UI", 10, "bold"), text_color="#22c55e").pack(anchor="w", padx=6, pady=2)
-        self.dsa_critique_text = ctk.CTkLabel(c_right, text="Practice explaining your thought process clearly.", font=("Segoe UI", 8), text_color="#94a3b8", justify="left", wraplength=280)
+        ctk.CTkLabel(c_right, text="INTERVIEW VERBAL COACHING", font=("Segoe UI", 10, "bold"), text_color="#16a34a").pack(anchor="w", padx=6, pady=2)
+        self.dsa_critique_text = ctk.CTkLabel(c_right, text="Practice explaining your thought process clearly.", font=("Segoe UI", 8), text_color="#64748b", justify="left", wraplength=280)
         self.dsa_critique_text.pack(anchor="w", padx=6, pady=(0, 4))
 
     def _load_dsa_problems(self):
@@ -1280,7 +1280,7 @@ class JarvisGUI(ctk.CTk):
             latest = notes[0]
             self.dsa_verbal_badge.configure(
                 text=f"VERBAL CLARITY: {latest['verbal_score']}/10",
-                text_color="#22c55e" if latest["verbal_score"] >= 8 else "#f59e0b"
+                text_color="#16a34a" if latest["verbal_score"] >= 8 else "#f59e0b"
             )
             self.dsa_intuition_text.insert(tk.END, latest["intuition"])
             self.dsa_dryrun_text.insert(tk.END, latest["dry_run"])
@@ -1291,7 +1291,7 @@ class JarvisGUI(ctk.CTk):
                 text=latest.get("verbal_critique", "Clear explanation delivered.")
             )
         else:
-            self.dsa_verbal_badge.configure(text="VERBAL CLARITY: --/10", text_color="#4f8ef7")
+            self.dsa_verbal_badge.configure(text="VERBAL CLARITY: --/10", text_color="#2563eb")
             self.dsa_intuition_text.insert(tk.END, "No dry-run notes recorded yet.\nClick '🎙️ Explain Aloud (Voice Practice)' to speak your solution and have JARVIS generate structured revision notes.")
             self.dsa_dryrun_text.insert(tk.END, "// Dry-run trace will be generated from your spoken voice explanation.")
             self.dsa_complexity_text.configure(text="Time: -- | Space: --\nEdge cases: None logged")
@@ -1370,13 +1370,13 @@ class JarvisGUI(ctk.CTk):
         modal = ctk.CTkToplevel(self)
         modal.title(f"Type Explanation: {prob['title']}")
         modal.geometry("520x420")
-        modal.configure(fg_color="#13161f")
+        modal.configure(fg_color="#f8fafc")
         modal.grab_set()
 
-        ctk.CTkLabel(modal, text=f"EXPLAIN SOLUTION // {prob['title'].upper()}", font=("Segoe UI", 12, "bold"), text_color="#4f8ef7").pack(pady=10)
-        ctk.CTkLabel(modal, text="Type your intuition, walkthrough, or code logic below. JARVIS will synthesize\npermanent dry-run revision notes for you:", font=("Segoe UI", 10), text_color="#94a3b8", justify="center").pack(pady=(0, 8))
+        ctk.CTkLabel(modal, text=f"EXPLAIN SOLUTION // {prob['title'].upper()}", font=("Segoe UI", 12, "bold"), text_color="#2563eb").pack(pady=10)
+        ctk.CTkLabel(modal, text="Type your intuition, walkthrough, or code logic below. JARVIS will synthesize\npermanent dry-run revision notes for you:", font=("Segoe UI", 10), text_color="#64748b", justify="center").pack(pady=(0, 8))
 
-        t_entry = scrolledtext.ScrolledText(modal, height=10, font=("Segoe UI", 10), bg="#1a1d27", fg="#f1f5f9", wrap="word", relief="flat", bd=0, padx=8, pady=6)
+        t_entry = scrolledtext.ScrolledText(modal, height=10, font=("Segoe UI", 10), bg="#ffffff", fg="#0f172a", wrap="word", relief="flat", bd=0, padx=8, pady=6)
         t_entry.pack(fill=tk.BOTH, expand=True, padx=16, pady=4)
         t_entry.insert(tk.END, "To solve this problem, we can use ...\n1. State: dp[i] represents ...\n2. Transition: ...\n3. Base case: ...\nTime complexity is O(...) and space is O(...).")
 
@@ -1400,7 +1400,7 @@ class JarvisGUI(ctk.CTk):
 
             threading.Thread(target=_thread, daemon=True).start()
 
-        ctk.CTkButton(modal, text="⚡ Synthesize Structured Revision Notes", command=_save, fg_color="#22c55e", hover_color="#16a34a", width=480, height=34, font=("Segoe UI", 10, "bold")).pack(pady=12)
+        ctk.CTkButton(modal, text="⚡ Synthesize Structured Revision Notes", command=_save, fg_color="#16a34a", hover_color="#15803d", width=480, height=34, font=("Segoe UI", 10, "bold")).pack(pady=12)
 
     def _on_dsa_read_aloud_notes(self):
         if not self.selected_dsa_problem_id:
@@ -1420,16 +1420,16 @@ class JarvisGUI(ctk.CTk):
     def _build_tab_aptitude(self):
         parent = self.tab_aptitude
 
-        top_ctrl = ctk.CTkFrame(parent, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        top_ctrl = ctk.CTkFrame(parent, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         top_ctrl.pack(fill=tk.X, padx=6, pady=4)
 
-        ctk.CTkLabel(top_ctrl, text="Domain:", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT, padx=10, pady=6)
+        ctk.CTkLabel(top_ctrl, text="Domain:", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(side=tk.LEFT, padx=10, pady=6)
 
         self.apt_category_menu = ctk.CTkOptionMenu(
             top_ctrl,
             values=["All", "Quantitative Aptitude", "Operating Systems", "Database Management (DBMS)", "Computer Networks", "Programming & DSA"],
-            fg_color="#242838",
-            button_color="#4f8ef7",
+            fg_color="#f1f5f9",
+            button_color="#2563eb",
             font=("Segoe UI", 10),
             width=210,
             height=32,
@@ -1440,8 +1440,8 @@ class JarvisGUI(ctk.CTk):
             top_ctrl,
             text="⚡ Start 5-Q Speed Drill",
             command=self._on_start_aptitude_drill,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 10, "bold"),
             height=32,
             cursor="hand2",
@@ -1452,9 +1452,9 @@ class JarvisGUI(ctk.CTk):
             top_ctrl,
             text="🤖 Generate AI Quiz",
             command=self._on_generate_ai_quiz,
-            fg_color="#242838",
-            hover_color="#2e3347",
-            text_color="#94a3b8",
+            fg_color="#f1f5f9",
+            hover_color="#dde3ea",
+            text_color="#64748b",
             font=("Segoe UI", 10),
             height=32,
             cursor="hand2",
@@ -1465,8 +1465,8 @@ class JarvisGUI(ctk.CTk):
             top_ctrl,
             text="Accuracy: --%",
             font=("Segoe UI", 10, "bold"),
-            fg_color="#242838",
-            text_color="#22c55e",
+            fg_color="#f1f5f9",
+            text_color="#16a34a",
             corner_radius=4,
             padx=8,
             pady=3,
@@ -1474,7 +1474,7 @@ class JarvisGUI(ctk.CTk):
         self.apt_accuracy_lbl.pack(side=tk.RIGHT, padx=10)
 
         # Center Quiz Card
-        self.quiz_card = ctk.CTkFrame(parent, fg_color="#13161f", corner_radius=12, border_width=1, border_color="#2e3347")
+        self.quiz_card = ctk.CTkFrame(parent, fg_color="#f8fafc", corner_radius=12, border_width=1, border_color="#e2e8f0")
         self.quiz_card.pack(fill=tk.BOTH, expand=True, padx=6, pady=4)
 
         quiz_hdr = ctk.CTkFrame(self.quiz_card, fg_color="transparent")
@@ -1484,7 +1484,7 @@ class JarvisGUI(ctk.CTk):
             quiz_hdr,
             text="QUESTION 1 OF 5 // QUANTITATIVE APTITUDE",
             font=("Segoe UI", 11, "bold"),
-            text_color="#4f8ef7",
+            text_color="#2563eb",
         )
         self.quiz_progress_lbl.pack(side=tk.LEFT)
 
@@ -1492,7 +1492,7 @@ class JarvisGUI(ctk.CTk):
             quiz_hdr,
             text="⏱️ 60s",
             font=("Segoe UI", 12, "bold"),
-            fg_color="#242838",
+            fg_color="#f1f5f9",
             text_color="#f59e0b",
             corner_radius=4,
             padx=8,
@@ -1523,7 +1523,7 @@ class JarvisGUI(ctk.CTk):
                 variable=self.quiz_option_var,
                 value=i,
                 font=("Segoe UI", 10),
-                text_color="#94a3b8",
+                text_color="#64748b",
             )
             r.pack(anchor="w", pady=4)
             self.quiz_option_radios.append(r)
@@ -1536,8 +1536,8 @@ class JarvisGUI(ctk.CTk):
             act_row,
             text="✓ Submit Answer",
             command=self._on_submit_quiz_answer,
-            fg_color="#4f8ef7",
-            hover_color="#3b7de8",
+            fg_color="#2563eb",
+            hover_color="#1d4ed8",
             font=("Segoe UI", 10, "bold"),
             height=34,
             width=130,
@@ -1550,8 +1550,8 @@ class JarvisGUI(ctk.CTk):
             act_row,
             text="Next Question ➔",
             command=self._on_next_quiz_question,
-            fg_color="#242838",
-            hover_color="#2e3347",
+            fg_color="#f1f5f9",
+            hover_color="#dde3ea",
             font=("Segoe UI", 10),
             height=34,
             width=130,
@@ -1565,8 +1565,8 @@ class JarvisGUI(ctk.CTk):
             self.quiz_card,
             height=5,
             font=("Segoe UI", 10),
-            bg="#1a1d27",
-            fg="#f1f5f9",
+            bg="#ffffff",
+            fg="#0f172a",
             relief="flat",
             bd=0,
             padx=10,
@@ -1637,7 +1637,7 @@ class JarvisGUI(ctk.CTk):
             return
         self.quiz_timer_badge.configure(
             text=f"⏱️ {self.quiz_timer_seconds}s",
-            text_color="#ef4444" if self.quiz_timer_seconds <= 10 else "#f59e0b"
+            text_color="#dc2626" if self.quiz_timer_seconds <= 10 else "#f59e0b"
         )
         if self.quiz_timer_seconds > 0:
             self.quiz_timer_seconds -= 1
@@ -1701,18 +1701,18 @@ class JarvisGUI(ctk.CTk):
     def _build_tab_mock(self):
         parent = self.tab_mock
 
-        ctrl_frame = ctk.CTkFrame(parent, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        ctrl_frame = ctk.CTkFrame(parent, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         ctrl_frame.pack(fill=tk.X, padx=6, pady=4)
 
-        ctk.CTkLabel(ctrl_frame, text="Placement Domain:", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT, padx=10, pady=6)
+        ctk.CTkLabel(ctrl_frame, text="Placement Domain:", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(side=tk.LEFT, padx=10, pady=6)
 
         self.mock_topics = get_available_topics()
         self.mock_topic_menu = ctk.CTkOptionMenu(
             ctrl_frame,
             values=self.mock_topics[:15],
             font=("Segoe UI", 10),
-            fg_color="#242838",
-            button_color="#4f8ef7",
+            fg_color="#f1f5f9",
+            button_color="#2563eb",
             width=230,
             height=32,
         )
@@ -1722,8 +1722,8 @@ class JarvisGUI(ctk.CTk):
             ctrl_frame,
             text="🎲 Question",
             command=self._on_generate_interview_q,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             text_color="#ffffff",
             font=("Segoe UI", 10, "bold"),
             height=32,
@@ -1745,16 +1745,16 @@ class JarvisGUI(ctk.CTk):
         )
         self.hands_free_btn.pack(side=tk.LEFT, padx=4)
 
-        q_frame = ctk.CTkFrame(parent, fg_color="#13161f", corner_radius=6, border_width=1, border_color="#4f8ef7")
+        q_frame = ctk.CTkFrame(parent, fg_color="#f8fafc", corner_radius=6, border_width=1, border_color="#2563eb")
         q_frame.pack(fill=tk.X, padx=6, pady=4)
 
-        ctk.CTkLabel(q_frame, text="INTERVIEW QUESTION:", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(anchor="w", padx=10, pady=(6, 2))
+        ctk.CTkLabel(q_frame, text="INTERVIEW QUESTION:", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(anchor="w", padx=10, pady=(6, 2))
 
         self.mock_q_text = ctk.CTkLabel(
             q_frame,
             text="Click 'Generate Question' to begin your placement interview drill.",
             font=("Segoe UI", 10),
-            text_color="#f1f5f9",
+            text_color="#0f172a",
             wraplength=920,
             justify="left",
         )
@@ -1763,18 +1763,18 @@ class JarvisGUI(ctk.CTk):
         paned = ttk.PanedWindow(parent, orient=tk.HORIZONTAL)
         paned.pack(fill=tk.BOTH, expand=True, padx=6, pady=4)
 
-        ans_box = ctk.CTkFrame(paned, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        ans_box = ctk.CTkFrame(paned, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         paned.add(ans_box, weight=1)
 
-        ctk.CTkLabel(ans_box, text="Your Answer (Spoken or Typed):", font=("Segoe UI", 10, "bold"), text_color="#94a3b8").pack(anchor="w", padx=10, pady=(6, 2))
+        ctk.CTkLabel(ans_box, text="Your Answer (Spoken or Typed):", font=("Segoe UI", 10, "bold"), text_color="#64748b").pack(anchor="w", padx=10, pady=(6, 2))
 
         self.mock_ans_entry = scrolledtext.ScrolledText(
             ans_box,
             height=8,
             font=("Segoe UI", 10),
-            bg="#13161f",
-            fg="#f1f5f9",
-            insertbackground="#4f8ef7",
+            bg="#ffffff",
+            fg="#0f172a",
+            insertbackground="#2563eb",
             wrap="word",
             relief="flat",
             bd=0,
@@ -1790,8 +1790,8 @@ class JarvisGUI(ctk.CTk):
             ans_btn_row,
             text="🎤 Speak Answer",
             command=self._on_mock_voice_answer,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 10, "bold"),
             height=32,
             width=110,
@@ -1803,8 +1803,8 @@ class JarvisGUI(ctk.CTk):
             ans_btn_row,
             text="🎙️ Hands-Free Drill",
             command=self._on_hands_free_toggle,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 10, "bold"),
             height=32,
             width=135,
@@ -1816,31 +1816,31 @@ class JarvisGUI(ctk.CTk):
             ans_btn_row,
             text="⚡ Grade & Evaluate",
             command=self._on_evaluate_mock_answer,
-            fg_color="#4f8ef7",
-            hover_color="#3b7de8",
+            fg_color="#2563eb",
+            hover_color="#1d4ed8",
             font=("Segoe UI", 10, "bold"),
             height=32,
             cursor="hand2",
         )
         self.grade_btn.pack(side=tk.RIGHT)
 
-        eval_box = ctk.CTkFrame(paned, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        eval_box = ctk.CTkFrame(paned, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         paned.add(eval_box, weight=1)
 
         eval_hdr = ctk.CTkFrame(eval_box, fg_color="transparent")
         eval_hdr.pack(fill=tk.X, padx=10, pady=(6, 2))
 
-        ctk.CTkLabel(eval_hdr, text="AI Evaluator Feedback:", font=("Segoe UI", 10, "bold"), text_color="#94a3b8").pack(side=tk.LEFT)
+        ctk.CTkLabel(eval_hdr, text="AI Evaluator Feedback:", font=("Segoe UI", 10, "bold"), text_color="#64748b").pack(side=tk.LEFT)
 
-        self.mock_score_badge = ctk.CTkLabel(eval_hdr, text="SCORE: -- / 10", font=("Segoe UI", 11, "bold"), fg_color="#242838", text_color="#4f8ef7", corner_radius=4, padx=6, pady=2)
+        self.mock_score_badge = ctk.CTkLabel(eval_hdr, text="SCORE: -- / 10", font=("Segoe UI", 11, "bold"), fg_color="#f1f5f9", text_color="#2563eb", corner_radius=4, padx=6, pady=2)
         self.mock_score_badge.pack(side=tk.RIGHT)
 
         self.mock_eval_text = scrolledtext.ScrolledText(
             eval_box,
             height=8,
             font=("Segoe UI", 10),
-            bg="#13161f",
-            fg="#f1f5f9",
+            bg="#ffffff",
+            fg="#0f172a",
             wrap="word",
             relief="flat",
             bd=0,
@@ -2015,13 +2015,13 @@ class JarvisGUI(ctk.CTk):
     def _build_tab_flashcards(self):
         parent = self.tab_flashcards
 
-        f_ctrl = ctk.CTkFrame(parent, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        f_ctrl = ctk.CTkFrame(parent, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         f_ctrl.pack(fill=tk.X, padx=6, pady=4)
 
-        self.fc_count_lbl = ctk.CTkLabel(f_ctrl, text="Card Queue: -- / --", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7")
+        self.fc_count_lbl = ctk.CTkLabel(f_ctrl, text="Card Queue: -- / --", font=("Segoe UI", 10, "bold"), text_color="#2563eb")
         self.fc_count_lbl.pack(side=tk.LEFT, padx=12, pady=6)
 
-        self.fc_progress_bar = ctk.CTkProgressBar(f_ctrl, width=220, height=10, progress_color="#4f8ef7", fg_color="#242838")
+        self.fc_progress_bar = ctk.CTkProgressBar(f_ctrl, width=220, height=10, progress_color="#4f8ef7", fg_color="#f1f5f9")
         self.fc_progress_bar.pack(side=tk.LEFT, padx=8)
         self.fc_progress_bar.set(0.0)
 
@@ -2029,8 +2029,8 @@ class JarvisGUI(ctk.CTk):
             f_ctrl,
             text="➕ New Flashcard",
             command=self._on_add_flashcard_modal,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 10, "bold"),
             height=32,
             width=110,
@@ -2041,18 +2041,18 @@ class JarvisGUI(ctk.CTk):
             f_ctrl,
             text="🔄 Refresh",
             command=self._load_flashcard_queue,
-            fg_color="#242838",
-            hover_color="#2e3347",
+            fg_color="#f1f5f9",
+            hover_color="#dde3ea",
             height=32,
             width=70,
         )
         reload_fc_btn.pack(side=tk.RIGHT, padx=4)
 
         # Flashcard Flip Card
-        self.fc_card = ctk.CTkFrame(parent, fg_color="#13161f", corner_radius=8, border_width=1, border_color="#4f8ef7")
+        self.fc_card = ctk.CTkFrame(parent, fg_color="#f8fafc", corner_radius=8, border_width=1, border_color="#2563eb")
         self.fc_card.pack(fill=tk.BOTH, expand=True, padx=6, pady=6)
 
-        self.fc_topic_badge = ctk.CTkLabel(self.fc_card, text="TOPIC: GENERAL", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7")
+        self.fc_topic_badge = ctk.CTkLabel(self.fc_card, text="TOPIC: GENERAL", font=("Segoe UI", 10, "bold"), text_color="#2563eb")
         self.fc_topic_badge.pack(anchor="w", padx=14, pady=(12, 4))
 
         self.fc_question_text = ctk.CTkLabel(
@@ -2066,14 +2066,14 @@ class JarvisGUI(ctk.CTk):
         self.fc_question_text.pack(anchor="w", padx=14, pady=8)
 
         # Answer Section
-        self.fc_answer_frame = ctk.CTkFrame(self.fc_card, fg_color="#1a1d27", corner_radius=6)
+        self.fc_answer_frame = ctk.CTkFrame(self.fc_card, fg_color="#ffffff", corner_radius=6)
         self.fc_answer_frame.pack(fill=tk.BOTH, expand=True, padx=14, pady=8)
 
         self.fc_answer_text = ctk.CTkLabel(
             self.fc_answer_frame,
             text="[Click 'Show Answer' below to flip card]",
             font=("Segoe UI", 10),
-            text_color="#94a3b8",
+            text_color="#64748b",
             wraplength=880,
             justify="left",
         )
@@ -2087,8 +2087,8 @@ class JarvisGUI(ctk.CTk):
             self.fc_action_row,
             text="👁️ Show Answer",
             command=self._on_flip_flashcard,
-            fg_color="#4f8ef7",
-            hover_color="#3b7de8",
+            fg_color="#2563eb",
+            hover_color="#1d4ed8",
             font=("Segoe UI", 10, "bold"),
             height=32,
             width=140,
@@ -2173,13 +2173,13 @@ class JarvisGUI(ctk.CTk):
         modal = ctk.CTkToplevel(self)
         modal.title("Add Placement Flashcard")
         modal.geometry("440x370")
-        modal.configure(fg_color="#13161f")
+        modal.configure(fg_color="#f8fafc")
         modal.grab_set()
 
-        ctk.CTkLabel(modal, text="CREATE PLACEMENT FLASHCARD", font=("Segoe UI", 12, "bold"), text_color="#4f8ef7").pack(pady=10)
+        ctk.CTkLabel(modal, text="CREATE PLACEMENT FLASHCARD", font=("Segoe UI", 12, "bold"), text_color="#2563eb").pack(pady=10)
 
         top_presets = ["Operating Systems", "DBMS", "Computer Networks", "Data Structures & Algorithms", "System Design", "Placement General"]
-        t_menu = ctk.CTkOptionMenu(modal, values=top_presets, width=370, height=34, fg_color="#242838", button_color="#4f8ef7")
+        t_menu = ctk.CTkOptionMenu(modal, values=top_presets, width=370, height=34, fg_color="#f1f5f9", button_color="#2563eb")
         t_menu.pack(pady=4)
 
         f_ent = ctk.CTkEntry(modal, placeholder_text="Front Question (e.g. What is Mutex vs Semaphore?)", width=370, height=34)
@@ -2198,7 +2198,7 @@ class JarvisGUI(ctk.CTk):
             modal.destroy()
             self._load_flashcard_queue()
 
-        ctk.CTkButton(modal, text="Save Card to Queue", command=_save, fg_color="#4f8ef7", width=360, height=32).pack(pady=16)
+        ctk.CTkButton(modal, text="Save Card to Queue", command=_save, fg_color="#2563eb", width=360, height=32).pack(pady=16)
 
     # --------------------------------------------------
     # TAB 5: AI Resume Studio & Project Manager
@@ -2210,10 +2210,10 @@ class JarvisGUI(ctk.CTk):
         paned.pack(fill=tk.BOTH, expand=True, padx=6, pady=4)
 
         # Left Column: Profile & Project Manager
-        l_box = ctk.CTkFrame(paned, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        l_box = ctk.CTkFrame(paned, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         paned.add(l_box, weight=1)
 
-        ctk.CTkLabel(l_box, text="RESUME PROFILE & PROJECT STUDIO", font=("Segoe UI", 11, "bold"), text_color="#4f8ef7").pack(anchor="w", padx=10, pady=(8, 4))
+        ctk.CTkLabel(l_box, text="RESUME PROFILE & PROJECT STUDIO", font=("Segoe UI", 11, "bold"), text_color="#2563eb").pack(anchor="w", padx=10, pady=(8, 4))
 
         info_r = ctk.CTkFrame(l_box, fg_color="transparent")
         info_r.pack(fill=tk.X, padx=10, pady=2)
@@ -2227,14 +2227,14 @@ class JarvisGUI(ctk.CTk):
         skills_r = ctk.CTkFrame(l_box, fg_color="transparent")
         skills_r.pack(fill=tk.X, padx=10, pady=(6, 2))
 
-        ctk.CTkLabel(skills_r, text="Skills:", font=("Segoe UI", 10, "bold"), text_color="#94a3b8").pack(side=tk.LEFT)
+        ctk.CTkLabel(skills_r, text="Skills:", font=("Segoe UI", 10, "bold"), text_color="#64748b").pack(side=tk.LEFT)
 
         sync_btn = ctk.CTkButton(
             skills_r,
             text="🔄 Sync Mastered Skills",
             command=self._on_sync_resume_skills,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 8, "bold"),
             height=22,
             cursor="hand2",
@@ -2248,13 +2248,13 @@ class JarvisGUI(ctk.CTk):
         proj_hdr_r = ctk.CTkFrame(l_box, fg_color="transparent")
         proj_hdr_r.pack(fill=tk.X, padx=10, pady=(6, 2))
 
-        ctk.CTkLabel(proj_hdr_r, text="Target Proj:", font=("Segoe UI", 10, "bold"), text_color="#94a3b8").pack(side=tk.LEFT)
+        ctk.CTkLabel(proj_hdr_r, text="Target Proj:", font=("Segoe UI", 10, "bold"), text_color="#64748b").pack(side=tk.LEFT)
 
         self.target_project_menu = ctk.CTkOptionMenu(
             proj_hdr_r,
             values=["[No Projects]"],
-            fg_color="#242838",
-            button_color="#4f8ef7",
+            fg_color="#f1f5f9",
+            button_color="#2563eb",
             font=("Segoe UI", 8),
             width=160,
             height=22,
@@ -2265,8 +2265,8 @@ class JarvisGUI(ctk.CTk):
             proj_hdr_r,
             text="➕ Proj",
             command=self._on_add_project_modal,
-            fg_color="#4f8ef7",
-            hover_color="#3b7de8",
+            fg_color="#2563eb",
+            hover_color="#1d4ed8",
             font=("Segoe UI", 8, "bold"),
             height=22,
             width=50,
@@ -2277,8 +2277,8 @@ class JarvisGUI(ctk.CTk):
             proj_hdr_r,
             text="➕ Exp",
             command=self._on_add_experience_modal,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 8, "bold"),
             height=22,
             width=50,
@@ -2289,9 +2289,9 @@ class JarvisGUI(ctk.CTk):
             proj_hdr_r,
             text="🗑️",
             command=self._on_delete_selected_project,
-            fg_color="#242838",
+            fg_color="#f1f5f9",
             hover_color="#dc2626",
-            text_color="#ef4444",
+            text_color="#dc2626",
             font=("Segoe UI", 8),
             height=22,
             width=26,
@@ -2299,10 +2299,10 @@ class JarvisGUI(ctk.CTk):
         del_proj_btn.pack(side=tk.LEFT, padx=2)
 
         # Google XYZ Card
-        xyz_card = ctk.CTkFrame(l_box, fg_color="#13161f", corner_radius=6, border_width=1, border_color="#2e3347")
+        xyz_card = ctk.CTkFrame(l_box, fg_color="#f8fafc", corner_radius=6, border_width=1, border_color="#e2e8f0")
         xyz_card.pack(fill=tk.BOTH, expand=True, padx=10, pady=(4, 4))
 
-        ctk.CTkLabel(xyz_card, text="⚡ Google XYZ Bullet Synthesizer", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(anchor="w", padx=8, pady=(4, 2))
+        ctk.CTkLabel(xyz_card, text="⚡ Google XYZ Bullet Synthesizer", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(anchor="w", padx=8, pady=(4, 2))
 
         self.xyz_input = ctk.CTkEntry(xyz_card, placeholder_text="Describe raw project accomplishment...", height=32)
         self.xyz_input.pack(fill=tk.X, padx=8, pady=2)
@@ -2314,8 +2314,8 @@ class JarvisGUI(ctk.CTk):
             xyz_btn_r,
             text="✨ Synthesize Bullets",
             command=self._on_optimize_bullets,
-            fg_color="#4f8ef7",
-            hover_color="#3b7de8",
+            fg_color="#2563eb",
+            hover_color="#1d4ed8",
             font=("Segoe UI", 8, "bold"),
             height=24,
             cursor="hand2",
@@ -2326,28 +2326,28 @@ class JarvisGUI(ctk.CTk):
             xyz_btn_r,
             text="📥 Inject Bullet to Project",
             command=self._on_inject_xyz_bullet,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 8, "bold"),
             height=24,
             cursor="hand2",
         )
         inject_btn.pack(side=tk.RIGHT)
 
-        self.xyz_output = scrolledtext.ScrolledText(xyz_card, height=4, font=("Segoe UI", 10), bg="#1a1d27", fg="#f1f5f9", relief="flat", bd=0, padx=6, pady=4)
+        self.xyz_output = scrolledtext.ScrolledText(xyz_card, height=4, font=("Segoe UI", 10), bg="#ffffff", fg="#0f172a", relief="flat", bd=0, padx=6, pady=4)
         self.xyz_output.pack(fill=tk.BOTH, expand=True, padx=8, pady=(2, 4))
 
         # Multi-template exporter row
         exp_row = ctk.CTkFrame(l_box, fg_color="transparent")
         exp_row.pack(fill=tk.X, padx=10, pady=(4, 8))
 
-        ctk.CTkLabel(exp_row, text="Template:", font=("Segoe UI", 10), text_color="#94a3b8").pack(side=tk.LEFT, padx=(0, 4))
+        ctk.CTkLabel(exp_row, text="Template:", font=("Segoe UI", 10), text_color="#64748b").pack(side=tk.LEFT, padx=(0, 4))
 
         self.template_menu = ctk.CTkOptionMenu(
             exp_row,
             values=["stark", "harvard", "modern"],
-            fg_color="#242838",
-            button_color="#4f8ef7",
+            fg_color="#f1f5f9",
+            button_color="#2563eb",
             width=85,
             height=26,
         )
@@ -2357,8 +2357,8 @@ class JarvisGUI(ctk.CTk):
             exp_row,
             text="📄 Export HTML/PDF",
             command=self._on_export_resume_html,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 10, "bold"),
             height=26,
             cursor="hand2",
@@ -2369,9 +2369,9 @@ class JarvisGUI(ctk.CTk):
             exp_row,
             text="👁️ View Profile",
             command=self._on_view_full_resume_modal,
-            fg_color="#242838",
-            hover_color="#2e3347",
-            text_color="#4f8ef7",
+            fg_color="#f1f5f9",
+            hover_color="#dde3ea",
+            text_color="#2563eb",
             font=("Segoe UI", 8),
             height=26,
             cursor="hand2",
@@ -2379,18 +2379,18 @@ class JarvisGUI(ctk.CTk):
         preview_btn.pack(side=tk.RIGHT, padx=4)
 
         # Right Column: JD Matcher
-        r_box = ctk.CTkFrame(paned, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        r_box = ctk.CTkFrame(paned, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         paned.add(r_box, weight=1)
 
         r_hdr = ctk.CTkFrame(r_box, fg_color="transparent")
         r_hdr.pack(fill=tk.X, padx=10, pady=(8, 4))
 
-        ctk.CTkLabel(r_hdr, text="JOB DESCRIPTION (JD) ATS MATCHER", font=("Segoe UI", 11, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT)
+        ctk.CTkLabel(r_hdr, text="JOB DESCRIPTION (JD) ATS MATCHER", font=("Segoe UI", 11, "bold"), text_color="#2563eb").pack(side=tk.LEFT)
 
-        self.jd_score_lbl = ctk.CTkLabel(r_hdr, text="ATS MATCH: --%", font=("Segoe UI", 10, "bold"), fg_color="#242838", text_color="#22c55e", corner_radius=4, padx=6, pady=2)
+        self.jd_score_lbl = ctk.CTkLabel(r_hdr, text="ATS MATCH: --%", font=("Segoe UI", 10, "bold"), fg_color="#f1f5f9", text_color="#16a34a", corner_radius=4, padx=6, pady=2)
         self.jd_score_lbl.pack(side=tk.RIGHT)
 
-        self.jd_text = scrolledtext.ScrolledText(r_box, height=6, font=("Segoe UI", 10), bg="#13161f", fg="#f1f5f9", insertbackground="#4f8ef7", relief="flat", bd=0, padx=8, pady=4)
+        self.jd_text = scrolledtext.ScrolledText(r_box, height=6, font=("Segoe UI", 10), bg="#ffffff", fg="#0f172a", insertbackground="#2563eb", relief="flat", bd=0, padx=8, pady=4)
         self.jd_text.pack(fill=tk.X, padx=10, pady=2)
 
         jd_btn_r = ctk.CTkFrame(r_box, fg_color="transparent")
@@ -2400,8 +2400,8 @@ class JarvisGUI(ctk.CTk):
             jd_btn_r,
             text="📥 Sync Gaps to Study Queue",
             command=self._on_sync_jd_gaps_to_study,
-            fg_color="#242838",
-            hover_color="#2e3347",
+            fg_color="#f1f5f9",
+            hover_color="#dde3ea",
             font=("Segoe UI", 10),
             height=26,
             state=tk.DISABLED,
@@ -2412,15 +2412,15 @@ class JarvisGUI(ctk.CTk):
             jd_btn_r,
             text="🎯 Match Against JD",
             command=self._on_analyze_jd,
-            fg_color="#4f8ef7",
-            hover_color="#3b7de8",
+            fg_color="#2563eb",
+            hover_color="#1d4ed8",
             font=("Segoe UI", 10, "bold"),
             height=26,
             cursor="hand2",
         )
         analyze_jd_btn.pack(side=tk.RIGHT)
 
-        self.jd_results_text = scrolledtext.ScrolledText(r_box, height=7, font=("Segoe UI", 10), bg="#13161f", fg="#f1f5f9", relief="flat", bd=0, padx=8, pady=4)
+        self.jd_results_text = scrolledtext.ScrolledText(r_box, height=7, font=("Segoe UI", 10), bg="#ffffff", fg="#0f172a", relief="flat", bd=0, padx=8, pady=4)
         self.jd_results_text.pack(fill=tk.BOTH, expand=True, padx=10, pady=(2, 8))
         self.jd_results_text.insert(tk.END, "Paste Job Description above to calculate ATS score and reveal missing competencies.")
         self.jd_results_text.configure(state=tk.DISABLED)
@@ -2429,10 +2429,10 @@ class JarvisGUI(ctk.CTk):
         modal = ctk.CTkToplevel(self)
         modal.title("Add Engineering Project")
         modal.geometry("420x320")
-        modal.configure(fg_color="#13161f")
+        modal.configure(fg_color="#f8fafc")
         modal.grab_set()
 
-        ctk.CTkLabel(modal, text="ADD ENGINEERING PROJECT", font=("Segoe UI", 12, "bold"), text_color="#4f8ef7").pack(pady=10)
+        ctk.CTkLabel(modal, text="ADD ENGINEERING PROJECT", font=("Segoe UI", 12, "bold"), text_color="#2563eb").pack(pady=10)
 
         t_ent = ctk.CTkEntry(modal, placeholder_text="Project Title (e.g. Distributed Cache)", width=360, height=34)
         t_ent.pack(pady=4)
@@ -2454,7 +2454,7 @@ class JarvisGUI(ctk.CTk):
             self._refresh_project_dropdown()
             messagebox.showinfo("Project Added", f"Added project '{t}' to resume profile.")
 
-        ctk.CTkButton(modal, text="Save Project", command=_save, fg_color="#4f8ef7", width=360, height=32).pack(pady=14)
+        ctk.CTkButton(modal, text="Save Project", command=_save, fg_color="#2563eb", width=360, height=32).pack(pady=14)
 
     def _refresh_project_dropdown(self):
         try:
@@ -2500,10 +2500,10 @@ class JarvisGUI(ctk.CTk):
         modal = ctk.CTkToplevel(self)
         modal.title("Add Professional Experience")
         modal.geometry("420x360")
-        modal.configure(fg_color="#13161f")
+        modal.configure(fg_color="#f8fafc")
         modal.grab_set()
 
-        ctk.CTkLabel(modal, text="ADD WORK EXPERIENCE", font=("Segoe UI", 12, "bold"), text_color="#4f8ef7").pack(pady=10)
+        ctk.CTkLabel(modal, text="ADD WORK EXPERIENCE", font=("Segoe UI", 12, "bold"), text_color="#2563eb").pack(pady=10)
 
         r_ent = ctk.CTkEntry(modal, placeholder_text="Role (e.g. Software Engineering Intern)", width=360, height=34)
         r_ent.pack(pady=4)
@@ -2529,7 +2529,7 @@ class JarvisGUI(ctk.CTk):
             messagebox.showinfo("Experience Added", f"Added experience at '{c}' to resume profile.")
             self.refresh_all_data()
 
-        ctk.CTkButton(modal, text="Save Experience", command=_save, fg_color="#22c55e", width=360, height=32).pack(pady=14)
+        ctk.CTkButton(modal, text="Save Experience", command=_save, fg_color="#16a34a", width=360, height=32).pack(pady=14)
 
     def _on_delete_selected_project(self):
         sel_proj = self.target_project_menu.get()
@@ -2549,12 +2549,12 @@ class JarvisGUI(ctk.CTk):
         modal = ctk.CTkToplevel(self)
         modal.title(f"Resume Profile: {p.get('full_name', 'Candidate')}")
         modal.geometry("560x520")
-        modal.configure(fg_color="#13161f")
+        modal.configure(fg_color="#f8fafc")
         modal.grab_set()
 
-        ctk.CTkLabel(modal, text=f"PROFILE SUMMARY // {p.get('full_name', 'CANDIDATE').upper()}", font=("Segoe UI", 12, "bold"), text_color="#4f8ef7").pack(pady=10)
+        ctk.CTkLabel(modal, text=f"PROFILE SUMMARY // {p.get('full_name', 'CANDIDATE').upper()}", font=("Segoe UI", 12, "bold"), text_color="#2563eb").pack(pady=10)
 
-        t_view = scrolledtext.ScrolledText(modal, font=("Segoe UI", 10), bg="#1a1d27", fg="#f1f5f9", relief="flat", bd=0, padx=12, pady=10)
+        t_view = scrolledtext.ScrolledText(modal, font=("Segoe UI", 10), bg="#ffffff", fg="#0f172a", relief="flat", bd=0, padx=12, pady=10)
         t_view.pack(fill=tk.BOTH, expand=True, padx=14, pady=(0, 14))
 
         t_view.insert(tk.END, f"NAME: {p.get('full_name', '')}\n")
@@ -2666,10 +2666,10 @@ class JarvisGUI(ctk.CTk):
     def _build_tab_kanban(self):
         parent = self.tab_kanban
 
-        top_r = ctk.CTkFrame(parent, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        top_r = ctk.CTkFrame(parent, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         top_r.pack(fill=tk.X, padx=6, pady=4)
 
-        ctk.CTkLabel(top_r, text="PLACEMENT PIPELINE KANBAN", font=("Segoe UI", 11, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT, padx=10, pady=6)
+        ctk.CTkLabel(top_r, text="PLACEMENT PIPELINE KANBAN", font=("Segoe UI", 11, "bold"), text_color="#2563eb").pack(side=tk.LEFT, padx=10, pady=6)
 
         self.kanban_search_entry = ctk.CTkEntry(top_r, placeholder_text="🔍 Filter by company...", height=32, width=170)
         self.kanban_search_entry.pack(side=tk.LEFT, padx=6)
@@ -2682,8 +2682,8 @@ class JarvisGUI(ctk.CTk):
             top_r,
             text="➕ Add Application",
             command=self._on_open_add_application_modal,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 10, "bold"),
             height=32,
             cursor="hand2",
@@ -2694,8 +2694,8 @@ class JarvisGUI(ctk.CTk):
             top_r,
             text="🎯 Tailor Resume",
             command=self._on_tailor_resume_modal,
-            fg_color="#4f8ef7",
-            hover_color="#3b7de8",
+            fg_color="#2563eb",
+            hover_color="#1d4ed8",
             font=("Segoe UI", 10, "bold"),
             height=32,
             cursor="hand2",
@@ -2706,8 +2706,8 @@ class JarvisGUI(ctk.CTk):
             top_r,
             text="📑 Cheat Sheet",
             command=self._on_generate_cheat_sheet,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 10, "bold"),
             height=32,
             cursor="hand2",
@@ -2723,7 +2723,7 @@ class JarvisGUI(ctk.CTk):
 
         for col_name in self.kanban_cols:
             col_color = "#22c55e" if col_name == "Offer Received" else "#4f8ef7"
-            col_frame = ctk.CTkFrame(self.kanban_container, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+            col_frame = ctk.CTkFrame(self.kanban_container, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
             col_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=3)
 
             col_title = ctk.CTkLabel(col_frame, text=col_name.upper(), font=("Segoe UI", 10, "bold"), text_color=col_color)
@@ -2747,8 +2747,8 @@ class JarvisGUI(ctk.CTk):
                 b_frame,
                 text="⬅",
                 command=lambda t=tree: self._on_demote_card(t),
-                fg_color="#242838",
-                hover_color="#2e3347",
+                fg_color="#f1f5f9",
+                hover_color="#dde3ea",
                 font=("Segoe UI", 10, "bold"),
                 width=35,
                 height=22,
@@ -2759,29 +2759,29 @@ class JarvisGUI(ctk.CTk):
                 b_frame,
                 text="➔ Promote",
                 command=lambda t=tree: self._on_promote_card(t),
-                fg_color="#4f8ef7",
-                hover_color="#3b7de8",
+                fg_color="#2563eb",
+                hover_color="#1d4ed8",
                 font=("Segoe UI", 8, "bold"),
                 height=22,
             )
             prom_btn.pack(side=tk.RIGHT)
 
         # Bottom: Company Question Vault
-        v_box = ctk.CTkFrame(parent, fg_color="#1a1d27", height=130, corner_radius=6, border_width=1, border_color="#2e3347")
+        v_box = ctk.CTkFrame(parent, fg_color="#ffffff", height=130, corner_radius=6, border_width=1, border_color="#e2e8f0")
         v_box.pack(fill=tk.X, padx=6, pady=(2, 4))
         v_box.pack_propagate(False)
 
         v_hdr = ctk.CTkFrame(v_box, fg_color="transparent")
         v_hdr.pack(fill=tk.X, padx=8, pady=4)
 
-        ctk.CTkLabel(v_hdr, text="COMPANY QUESTION VAULT (Past Round Archive):", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT)
+        ctk.CTkLabel(v_hdr, text="COMPANY QUESTION VAULT (Past Round Archive):", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(side=tk.LEFT)
 
         add_q_btn = ctk.CTkButton(
             v_hdr,
             text="➕ Log Question",
             command=self._on_add_company_question_modal,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 8, "bold"),
             height=22,
         )
@@ -2849,10 +2849,10 @@ class JarvisGUI(ctk.CTk):
         modal = ctk.CTkToplevel(self)
         modal.title("Log Company Interview Question")
         modal.geometry("420x360")
-        modal.configure(fg_color="#13161f")
+        modal.configure(fg_color="#f8fafc")
         modal.grab_set()
 
-        ctk.CTkLabel(modal, text="LOG COMPANY INTERVIEW QUESTION", font=("Segoe UI", 12, "bold"), text_color="#4f8ef7").pack(pady=10)
+        ctk.CTkLabel(modal, text="LOG COMPANY INTERVIEW QUESTION", font=("Segoe UI", 12, "bold"), text_color="#2563eb").pack(pady=10)
 
         c_ent = ctk.CTkEntry(modal, placeholder_text="Company Name (e.g. Amazon, Google)", width=360, height=34)
         c_ent.pack(pady=4)
@@ -2873,7 +2873,7 @@ class JarvisGUI(ctk.CTk):
             modal.destroy()
             self.refresh_all_data()
 
-        ctk.CTkButton(modal, text="Save to Vault", command=_save, fg_color="#4f8ef7", width=360, height=32).pack(pady=16)
+        ctk.CTkButton(modal, text="Save to Vault", command=_save, fg_color="#2563eb", width=360, height=32).pack(pady=16)
 
     def _on_tailor_resume_modal(self):
         apps = get_applications()
@@ -2884,13 +2884,13 @@ class JarvisGUI(ctk.CTk):
         modal = ctk.CTkToplevel(self)
         modal.title("1-Click AI Resume Tailoring")
         modal.geometry("420x280")
-        modal.configure(fg_color="#13161f")
+        modal.configure(fg_color="#f8fafc")
         modal.grab_set()
 
-        ctk.CTkLabel(modal, text="1-CLICK AI RESUME TAILORING", font=("Segoe UI", 12, "bold"), text_color="#4f8ef7").pack(pady=12)
+        ctk.CTkLabel(modal, text="1-CLICK AI RESUME TAILORING", font=("Segoe UI", 12, "bold"), text_color="#2563eb").pack(pady=12)
 
         options = [f"#{a['id']}: {a['company']} ({a['role']})" for a in apps]
-        menu = ctk.CTkOptionMenu(modal, values=options, width=360, height=32, fg_color="#242838", button_color="#4f8ef7")
+        menu = ctk.CTkOptionMenu(modal, values=options, width=360, height=32, fg_color="#f1f5f9", button_color="#2563eb")
         menu.pack(pady=8)
 
         def _tailor():
@@ -2908,7 +2908,7 @@ class JarvisGUI(ctk.CTk):
 
             threading.Thread(target=_run, daemon=True).start()
 
-        ctk.CTkButton(modal, text="⚡ Tailor & Export HTML Resume", command=_tailor, fg_color="#22c55e", width=360, height=34, font=("Segoe UI", 10, "bold")).pack(pady=16)
+        ctk.CTkButton(modal, text="⚡ Tailor & Export HTML Resume", command=_tailor, fg_color="#16a34a", width=360, height=34, font=("Segoe UI", 10, "bold")).pack(pady=16)
 
     def _on_tailor_done(self, company, out_file):
         self._anim_mode = "idle"
@@ -2930,14 +2930,14 @@ class JarvisGUI(ctk.CTk):
         modal = ctk.CTkToplevel(self)
         modal.title("Generate 1-Click Company Cheat Sheet")
         modal.geometry("440x260")
-        modal.configure(fg_color="#13161f")
+        modal.configure(fg_color="#f8fafc")
         modal.grab_set()
 
-        ctk.CTkLabel(modal, text="COMPANY INTERVIEW CHEAT SHEET", font=("Segoe UI", 12, "bold"), text_color="#4f8ef7").pack(pady=12)
-        ctk.CTkLabel(modal, text="Generates a high-density, printable Stark Executive brief\nwith past questions, core CS essentials, Big-O tables, & pitch.", font=("Segoe UI", 10), text_color="#94a3b8", justify="center").pack(pady=(0, 10))
+        ctk.CTkLabel(modal, text="COMPANY INTERVIEW CHEAT SHEET", font=("Segoe UI", 12, "bold"), text_color="#2563eb").pack(pady=12)
+        ctk.CTkLabel(modal, text="Generates a high-density, printable Stark Executive brief\nwith past questions, core CS essentials, Big-O tables, & pitch.", font=("Segoe UI", 10), text_color="#64748b", justify="center").pack(pady=(0, 10))
 
         comp_list = sorted(list(comp_set))
-        comp_menu = ctk.CTkOptionMenu(modal, values=comp_list, width=320, height=32, fg_color="#242838", button_color="#0f766e")
+        comp_menu = ctk.CTkOptionMenu(modal, values=comp_list, width=320, height=32, fg_color="#f1f5f9", button_color="#0f766e")
         comp_menu.pack(pady=6)
 
         def _generate():
@@ -2956,7 +2956,7 @@ class JarvisGUI(ctk.CTk):
 
             threading.Thread(target=_run, daemon=True).start()
 
-        ctk.CTkButton(modal, text="⚡ Generate Executive HTML Brief", command=_generate, fg_color="#22c55e", hover_color="#16a34a", width=320, height=34, font=("Segoe UI", 10, "bold")).pack(pady=14)
+        ctk.CTkButton(modal, text="⚡ Generate Executive HTML Brief", command=_generate, fg_color="#16a34a", hover_color="#15803d", width=320, height=34, font=("Segoe UI", 10, "bold")).pack(pady=14)
 
     def _on_cheat_sheet_done(self, company, out_path):
         self._anim_mode = "idle"
@@ -2973,20 +2973,20 @@ class JarvisGUI(ctk.CTk):
         paned = ttk.PanedWindow(parent, orient=tk.HORIZONTAL)
         paned.pack(fill=tk.BOTH, expand=True, padx=6, pady=4)
 
-        l_col = ctk.CTkFrame(paned, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        l_col = ctk.CTkFrame(paned, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         paned.add(l_col, weight=1)
 
         t_hdr = ctk.CTkFrame(l_col, fg_color="transparent")
         t_hdr.pack(fill=tk.X, padx=8, pady=(6, 2))
 
-        ctk.CTkLabel(t_hdr, text="📁 SUBJECTS & TOPICS", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT)
+        ctk.CTkLabel(t_hdr, text="📁 SUBJECTS & TOPICS", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(side=tk.LEFT)
 
         add_top_btn = ctk.CTkButton(
             t_hdr,
             text="➕ Add Topic",
             command=self._on_add_topic_modal,
-            fg_color="#4f8ef7",
-            hover_color="#3b7de8",
+            fg_color="#2563eb",
+            hover_color="#1d4ed8",
             font=("Segoe UI", 8, "bold"),
             height=22,
             width=70,
@@ -2997,8 +2997,8 @@ class JarvisGUI(ctk.CTk):
             t_hdr,
             text="📄 Upload",
             command=self._on_upload_syllabus,
-            fg_color="#22c55e",
-            hover_color="#16a34a",
+            fg_color="#16a34a",
+            hover_color="#15803d",
             font=("Segoe UI", 8, "bold"),
             height=22,
             width=65,
@@ -3034,23 +3034,23 @@ class JarvisGUI(ctk.CTk):
         act_r = ctk.CTkFrame(l_col, fg_color="transparent")
         act_r.pack(fill=tk.X, padx=8, pady=(0, 6))
 
-        ctk.CTkButton(act_r, text="Mark Done", command=lambda: self._set_selected_topic_status("done"), fg_color="#22c55e", text_color="#022c22", font=("Segoe UI", 8, "bold"), height=22).pack(side=tk.LEFT, padx=(0, 4))
-        ctk.CTkButton(act_r, text="Mark Active", command=lambda: self._set_selected_topic_status("in_progress"), fg_color="#4f8ef7", font=("Segoe UI", 8), height=22).pack(side=tk.LEFT)
+        ctk.CTkButton(act_r, text="Mark Done", command=lambda: self._set_selected_topic_status("done"), fg_color="#16a34a", text_color="#022c22", font=("Segoe UI", 8, "bold"), height=22).pack(side=tk.LEFT, padx=(0, 4))
+        ctk.CTkButton(act_r, text="Mark Active", command=lambda: self._set_selected_topic_status("in_progress"), fg_color="#2563eb", font=("Segoe UI", 8), height=22).pack(side=tk.LEFT)
 
-        r_col = ctk.CTkFrame(paned, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        r_col = ctk.CTkFrame(paned, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         paned.add(r_col, weight=1)
 
         task_hdr = ctk.CTkFrame(r_col, fg_color="transparent")
         task_hdr.pack(fill=tk.X, padx=8, pady=(6, 2))
 
-        ctk.CTkLabel(task_hdr, text="📋 ACTION ITEMS & DELIVERABLES", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT)
+        ctk.CTkLabel(task_hdr, text="📋 ACTION ITEMS & DELIVERABLES", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(side=tk.LEFT)
 
         add_task_btn = ctk.CTkButton(
             task_hdr,
             text="➕ Add Task",
             command=self._on_add_task_modal,
-            fg_color="#4f8ef7",
-            hover_color="#3b7de8",
+            fg_color="#2563eb",
+            hover_color="#1d4ed8",
             font=("Segoe UI", 8, "bold"),
             height=22,
             width=70,
@@ -3077,17 +3077,17 @@ class JarvisGUI(ctk.CTk):
 
         ctk.CTkLabel(r_col, text="⚠️ STALE ITEMS (Untouched 3+ Days):", font=("Segoe UI", 8, "bold"), text_color="#f59e0b").pack(anchor="w", padx=8, pady=(2, 0))
 
-        self.stale_text = scrolledtext.ScrolledText(r_col, height=4, font=("Consolas", 8), bg="#13161f", fg="#f1f5f9", relief="flat", bd=0, padx=6, pady=2)
+        self.stale_text = scrolledtext.ScrolledText(r_col, height=4, font=("Consolas", 8), bg="#ffffff", fg="#0f172a", relief="flat", bd=0, padx=6, pady=2)
         self.stale_text.pack(fill=tk.X, padx=8, pady=(2, 6))
 
     def _on_add_topic_modal(self):
         modal = ctk.CTkToplevel(self)
         modal.title("Add Study Topic")
         modal.geometry("380x260")
-        modal.configure(fg_color="#13161f")
+        modal.configure(fg_color="#f8fafc")
         modal.grab_set()
 
-        ctk.CTkLabel(modal, text="ADD STUDY TOPIC", font=("Segoe UI", 12, "bold"), text_color="#4f8ef7").pack(pady=10)
+        ctk.CTkLabel(modal, text="ADD STUDY TOPIC", font=("Segoe UI", 12, "bold"), text_color="#2563eb").pack(pady=10)
 
         s_ent = ctk.CTkEntry(modal, placeholder_text="Subject (e.g. Operating Systems, DSA)", width=320, height=34)
         s_ent.pack(pady=4)
@@ -3105,21 +3105,21 @@ class JarvisGUI(ctk.CTk):
             modal.destroy()
             self.refresh_all_data()
 
-        ctk.CTkButton(modal, text="Save Topic", command=_save, fg_color="#4f8ef7", width=320, height=32).pack(pady=14)
+        ctk.CTkButton(modal, text="Save Topic", command=_save, fg_color="#2563eb", width=320, height=32).pack(pady=14)
 
     def _on_add_task_modal(self):
         modal = ctk.CTkToplevel(self)
         modal.title("Add Action Item / Task")
         modal.geometry("380x290")
-        modal.configure(fg_color="#13161f")
+        modal.configure(fg_color="#f8fafc")
         modal.grab_set()
 
-        ctk.CTkLabel(modal, text="ADD ACTION ITEM", font=("Segoe UI", 12, "bold"), text_color="#4f8ef7").pack(pady=10)
+        ctk.CTkLabel(modal, text="ADD ACTION ITEM", font=("Segoe UI", 12, "bold"), text_color="#2563eb").pack(pady=10)
 
         n_ent = ctk.CTkEntry(modal, placeholder_text="Task deliverable (e.g. Complete Dynamic Programming module)", width=320, height=34)
         n_ent.pack(pady=4)
 
-        cat_menu = ctk.CTkOptionMenu(modal, values=["DSA", "Placement", "Core CS", "System Design", "Projects", "General"], width=320, height=34, fg_color="#242838", button_color="#4f8ef7")
+        cat_menu = ctk.CTkOptionMenu(modal, values=["DSA", "Placement", "Core CS", "System Design", "Projects", "General"], width=320, height=34, fg_color="#f1f5f9", button_color="#2563eb")
         cat_menu.pack(pady=4)
 
         def _save():
@@ -3135,7 +3135,7 @@ class JarvisGUI(ctk.CTk):
             modal.destroy()
             self.refresh_all_data()
 
-        ctk.CTkButton(modal, text="Save Task", command=_save, fg_color="#4f8ef7", width=320, height=32).pack(pady=14)
+        ctk.CTkButton(modal, text="Save Task", command=_save, fg_color="#2563eb", width=320, height=32).pack(pady=14)
 
     def _on_topic_tree_double_click(self, event):
         item_id = self.subject_tree.focus()
@@ -3184,10 +3184,10 @@ class JarvisGUI(ctk.CTk):
     def _build_tab_reminders(self):
         parent = self.tab_reminders
 
-        add_box = ctk.CTkFrame(parent, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        add_box = ctk.CTkFrame(parent, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         add_box.pack(fill=tk.X, padx=6, pady=4)
 
-        ctk.CTkLabel(add_box, text="SCHEDULE NEW ALARM / REMINDER:", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(anchor="w", padx=10, pady=(6, 2))
+        ctk.CTkLabel(add_box, text="SCHEDULE NEW ALARM / REMINDER:", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(anchor="w", padx=10, pady=(6, 2))
 
         in_r = ctk.CTkFrame(add_box, fg_color="transparent")
         in_r.pack(fill=tk.X, padx=10, pady=(2, 6))
@@ -3196,16 +3196,16 @@ class JarvisGUI(ctk.CTk):
         self.alarm_input.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 4))
         self.alarm_input.bind("<Return>", lambda e: self._on_schedule_alarm())
 
-        ctk.CTkButton(in_r, text="⏰ Schedule", command=self._on_schedule_alarm, fg_color="#4f8ef7", width=80, height=34).pack(side=tk.RIGHT)
-        ctk.CTkButton(in_r, text="🔔 Test Toast", command=lambda: send_windows_toast("JARVIS Alert", "Test notification confirmed."), fg_color="#242838", width=75, height=34).pack(side=tk.RIGHT, padx=4)
+        ctk.CTkButton(in_r, text="⏰ Schedule", command=self._on_schedule_alarm, fg_color="#2563eb", width=80, height=34).pack(side=tk.RIGHT)
+        ctk.CTkButton(in_r, text="🔔 Test Toast", command=lambda: send_windows_toast("JARVIS Alert", "Test notification confirmed."), fg_color="#f1f5f9", width=75, height=34).pack(side=tk.RIGHT, padx=4)
 
-        t_box = ctk.CTkFrame(parent, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        t_box = ctk.CTkFrame(parent, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         t_box.pack(fill=tk.BOTH, expand=True, padx=6, pady=4)
 
         t_hdr = ctk.CTkFrame(t_box, fg_color="transparent")
         t_hdr.pack(fill=tk.X, padx=10, pady=(6, 2))
 
-        ctk.CTkLabel(t_hdr, text="ACTIVE SCHEDULED ALARMS:", font=("Segoe UI", 10, "bold"), text_color="#94a3b8").pack(side=tk.LEFT)
+        ctk.CTkLabel(t_hdr, text="ACTIVE SCHEDULED ALARMS:", font=("Segoe UI", 10, "bold"), text_color="#64748b").pack(side=tk.LEFT)
         ctk.CTkButton(t_hdr, text="Dismiss Selected", command=self._on_dismiss_alarm, fg_color="#334155", height=22).pack(side=tk.RIGHT)
 
         self.rem_tree = ttk.Treeview(t_box, columns=("ID", "Time", "Message", "Status"), show="headings")
@@ -3351,7 +3351,7 @@ class JarvisGUI(ctk.CTk):
 
         r = 20
         canvas.create_oval(cx - r, cy - r, cx + r, cy + r, outline="#164e63", width=2)
-        core_color = "#4f8ef7" if self._anim_mode != "listening" else "#f59e0b"
+        core_color = "#2563eb" if self._anim_mode != "listening" else "#ea580c"
         pulse_r = 10 + math.sin(math.radians(self._anim_angle * 2)) * 3
         canvas.create_oval(cx - pulse_r, cy - pulse_r, cx + pulse_r, cy + pulse_r, fill=core_color, outline="#ffffff", width=1)
 
@@ -3366,7 +3366,7 @@ class JarvisGUI(ctk.CTk):
             bx = start_x + (i * step)
             phase = math.sin(math.radians(self._anim_angle * 3 + (i * 12)))
             bar_h = (abs(phase) * 14 * amp) + 3
-            color = "#f59e0b" if self._anim_mode == "listening" else ("#4f8ef7" if i % 2 == 0 else "#4f8ef7")
+            color = "#f59e0b" if self._anim_mode == "listening" else ("#2563eb" if i % 2 == 0 else "#3b82f6")
             canvas.create_line(bx, cy - bar_h / 2, bx, cy + bar_h / 2, fill=color, width=2)
 
         canvas.create_text(w - 20, cy, text=f"// {self._anim_mode.upper()}", font=("Consolas", 8, "bold"), fill="#64748b", anchor="e")
@@ -3587,10 +3587,10 @@ class JarvisGUI(ctk.CTk):
         modal = ctk.CTkToplevel(self)
         modal.title("Add Placement Application")
         modal.geometry("420x420")
-        modal.configure(fg_color="#13161f")
+        modal.configure(fg_color="#f8fafc")
         modal.grab_set()
 
-        ctk.CTkLabel(modal, text="NEW APPLICATION", font=("Segoe UI", 12, "bold"), text_color="#4f8ef7").pack(pady=12)
+        ctk.CTkLabel(modal, text="NEW APPLICATION", font=("Segoe UI", 12, "bold"), text_color="#2563eb").pack(pady=12)
 
         c_ent = ctk.CTkEntry(modal, placeholder_text="Company Name (e.g. Google, Amazon)", width=350, height=32)
         c_ent.pack(pady=4)
@@ -3598,7 +3598,7 @@ class JarvisGUI(ctk.CTk):
         r_ent = ctk.CTkEntry(modal, placeholder_text="Role (e.g. SDE-1, Software Engineer)", width=350, height=32)
         r_ent.pack(pady=4)
 
-        stg_menu = ctk.CTkOptionMenu(modal, values=VALID_STAGES, width=350, height=32, fg_color="#242838", button_color="#4f8ef7")
+        stg_menu = ctk.CTkOptionMenu(modal, values=VALID_STAGES, width=350, height=32, fg_color="#f1f5f9", button_color="#2563eb")
         stg_menu.pack(pady=4)
 
         notes_ent = ctk.CTkEntry(modal, placeholder_text="Notes / OA test link / deadline...", width=350, height=32)
@@ -3613,7 +3613,7 @@ class JarvisGUI(ctk.CTk):
             modal.destroy()
             self.refresh_all_data()
 
-        ctk.CTkButton(modal, text="Save Application", command=_save, fg_color="#4f8ef7", width=350, height=34).pack(pady=16)
+        ctk.CTkButton(modal, text="Save Application", command=_save, fg_color="#2563eb", width=350, height=34).pack(pady=16)
 
     # --------------------------------------------------
     # Stark Deep Work Focus Engine
@@ -3626,7 +3626,7 @@ class JarvisGUI(ctk.CTk):
             if state == "running":
                 self.focus_btn.configure(
                     text=f"⏱️ {time_str} [Active]",
-                    text_color="#22c55e",
+                    text_color="#16a34a",
                     fg_color="#064e3b"
                 )
             elif state == "paused":
@@ -3638,15 +3638,15 @@ class JarvisGUI(ctk.CTk):
             elif state == "completed":
                 self.focus_btn.configure(
                     text="🎉 Complete!",
-                    text_color="#4f8ef7",
-                    fg_color="#242838"
+                    text_color="#2563eb",
+                    fg_color="#f1f5f9"
                 )
             else:  # idle
                 today_hrs = get_today_focus_hours()
                 self.focus_btn.configure(
                     text=f"⏱️ 25:00 [{today_hrs}h]",
                     text_color="#f59e0b",
-                    fg_color="#242838"
+                    fg_color="#f1f5f9"
                 )
         self.after(0, _update)
 
@@ -3656,13 +3656,13 @@ class JarvisGUI(ctk.CTk):
             modal = ctk.CTkToplevel(self)
             modal.title("Focus Sprint Active")
             modal.geometry("360x220")
-            modal.configure(fg_color="#13161f")
+            modal.configure(fg_color="#f8fafc")
             modal.grab_set()
 
-            ctk.CTkLabel(modal, text="SPRINT IN PROGRESS", font=("Segoe UI", 12, "bold"), text_color="#22c55e").pack(pady=12)
+            ctk.CTkLabel(modal, text="SPRINT IN PROGRESS", font=("Segoe UI", 12, "bold"), text_color="#16a34a").pack(pady=12)
             mins = engine.remaining_seconds // 60
             secs = engine.remaining_seconds % 60
-            ctk.CTkLabel(modal, text=f"Target: {engine.task_name}\nTime Remaining: {mins:02d}:{secs:02d}", font=("Segoe UI", 10), text_color="#94a3b8").pack(pady=4)
+            ctk.CTkLabel(modal, text=f"Target: {engine.task_name}\nTime Remaining: {mins:02d}:{secs:02d}", font=("Segoe UI", 10), text_color="#64748b").pack(pady=4)
 
             btn_f = ctk.CTkFrame(modal, fg_color="transparent")
             btn_f.pack(pady=14)
@@ -3682,11 +3682,11 @@ class JarvisGUI(ctk.CTk):
             modal = ctk.CTkToplevel(self)
             modal.title("Focus Sprint Paused")
             modal.geometry("360x200")
-            modal.configure(fg_color="#13161f")
+            modal.configure(fg_color="#f8fafc")
             modal.grab_set()
 
             ctk.CTkLabel(modal, text="SPRINT PAUSED", font=("Segoe UI", 12, "bold"), text_color="#f59e0b").pack(pady=12)
-            ctk.CTkLabel(modal, text=f"Target: {engine.task_name}", font=("Segoe UI", 10), text_color="#94a3b8").pack(pady=4)
+            ctk.CTkLabel(modal, text=f"Target: {engine.task_name}", font=("Segoe UI", 10), text_color="#64748b").pack(pady=4)
 
             btn_f = ctk.CTkFrame(modal, fg_color="transparent")
             btn_f.pack(pady=14)
@@ -3699,7 +3699,7 @@ class JarvisGUI(ctk.CTk):
                 engine.stop_session()
                 modal.destroy()
 
-            ctk.CTkButton(btn_f, text="▶️ Resume", command=_resume, fg_color="#22c55e", width=110, height=32, font=("Segoe UI", 10, "bold")).pack(side=tk.LEFT, padx=6)
+            ctk.CTkButton(btn_f, text="▶️ Resume", command=_resume, fg_color="#16a34a", width=110, height=32, font=("Segoe UI", 10, "bold")).pack(side=tk.LEFT, padx=6)
             ctk.CTkButton(btn_f, text="⏹️ Stop", command=_stop, fg_color="#ef4444", width=110, height=32, font=("Segoe UI", 10, "bold")).pack(side=tk.LEFT, padx=6)
 
         else:
@@ -3707,12 +3707,12 @@ class JarvisGUI(ctk.CTk):
             modal = ctk.CTkToplevel(self)
             modal.title("Initiate Stark Focus Sprint")
             modal.geometry("420x300")
-            modal.configure(fg_color="#13161f")
+            modal.configure(fg_color="#f8fafc")
             modal.grab_set()
 
-            ctk.CTkLabel(modal, text="INITIATE DEEP WORK SPRINT", font=("Segoe UI", 12, "bold"), text_color="#4f8ef7").pack(pady=10)
+            ctk.CTkLabel(modal, text="INITIATE DEEP WORK SPRINT", font=("Segoe UI", 12, "bold"), text_color="#2563eb").pack(pady=10)
 
-            ctk.CTkLabel(modal, text="Sprint Focus Target:", font=("Segoe UI", 10), text_color="#94a3b8").pack(anchor="w", padx=24, pady=(4, 2))
+            ctk.CTkLabel(modal, text="Sprint Focus Target:", font=("Segoe UI", 10), text_color="#64748b").pack(anchor="w", padx=24, pady=(4, 2))
             task_entry = ctk.CTkEntry(modal, placeholder_text="e.g. Solve Binary Search / Revise OS Paging", width=370, height=34)
             task_entry.insert(0, "DSA Coding Sprint")
             task_entry.pack(pady=4)
@@ -3725,15 +3725,15 @@ class JarvisGUI(ctk.CTk):
                     preset_f,
                     text=p,
                     command=lambda t=p: (task_entry.delete(0, tk.END), task_entry.insert(0, t)),
-                    fg_color="#242838",
-                    hover_color="#2e3347",
-                    text_color="#94a3b8",
+                    fg_color="#f1f5f9",
+                    hover_color="#dde3ea",
+                    text_color="#64748b",
                     font=("Segoe UI", 8),
                     height=22,
                 ).pack(side=tk.LEFT, padx=2)
 
-            ctk.CTkLabel(modal, text="Duration:", font=("Segoe UI", 10), text_color="#94a3b8").pack(anchor="w", padx=24, pady=(6, 2))
-            dur_menu = ctk.CTkOptionMenu(modal, values=["15 minutes", "25 minutes (Pomodoro)", "45 minutes", "60 minutes"], width=370, height=34, fg_color="#242838", button_color="#4f8ef7")
+            ctk.CTkLabel(modal, text="Duration:", font=("Segoe UI", 10), text_color="#64748b").pack(anchor="w", padx=24, pady=(6, 2))
+            dur_menu = ctk.CTkOptionMenu(modal, values=["15 minutes", "25 minutes (Pomodoro)", "45 minutes", "60 minutes"], width=370, height=34, fg_color="#f1f5f9", button_color="#2563eb")
             dur_menu.set("25 minutes (Pomodoro)")
             dur_menu.pack(pady=4)
 
@@ -3750,7 +3750,7 @@ class JarvisGUI(ctk.CTk):
                 modal.destroy()
                 engine.start_session(task_name=task, duration_minutes=mins)
 
-            ctk.CTkButton(modal, text="⚡ Start Sprint Protocol", command=_start, fg_color="#22c55e", hover_color="#16a34a", width=370, height=34, font=("Segoe UI", 10, "bold")).pack(pady=12)
+            ctk.CTkButton(modal, text="⚡ Start Sprint Protocol", command=_start, fg_color="#16a34a", hover_color="#15803d", width=370, height=34, font=("Segoe UI", 10, "bold")).pack(pady=12)
 
     # --------------------------------------------------
     # 6:00 AM Stark Battle Plan & Evening Debrief Modal
@@ -3760,19 +3760,19 @@ class JarvisGUI(ctk.CTk):
         modal = ctk.CTkToplevel(self)
         modal.title("Stark Protocol // Daily Battle Plan")
         modal.geometry("560x580")
-        modal.configure(fg_color="#13161f")
+        modal.configure(fg_color="#f8fafc")
         modal.grab_set()
 
         hdr = ctk.CTkFrame(modal, fg_color="transparent")
         hdr.pack(fill=tk.X, padx=16, pady=(12, 6))
 
-        ctk.CTkLabel(hdr, text="⚔️ STARK PROTOCOL: BATTLE PLAN", font=("Segoe UI", 13, "bold"), text_color="#4f8ef7").pack(side=tk.LEFT)
+        ctk.CTkLabel(hdr, text="⚔️ STARK PROTOCOL: BATTLE PLAN", font=("Segoe UI", 13, "bold"), text_color="#2563eb").pack(side=tk.LEFT)
         score_badge = ctk.CTkLabel(
             hdr,
             text=f"EXECUTION: {plan['execution_score']}%",
             font=("Segoe UI", 11, "bold"),
-            fg_color="#242838",
-            text_color="#22c55e" if plan["execution_score"] == 100 else "#f59e0b",
+            fg_color="#f1f5f9",
+            text_color="#16a34a" if plan["execution_score"] == 100 else "#f59e0b",
             corner_radius=4,
             padx=8,
             pady=3,
@@ -3782,21 +3782,21 @@ class JarvisGUI(ctk.CTk):
         ctk.CTkLabel(modal, text=f"Date: {plan['plan_date']} // Strict 3-Target Protocol to eliminate task paralysis.", font=("Segoe UI", 10), text_color="#64748b").pack(anchor="w", padx=16, pady=(0, 8))
 
         # Target 1
-        t1_box = ctk.CTkFrame(modal, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        t1_box = ctk.CTkFrame(modal, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         t1_box.pack(fill=tk.X, padx=16, pady=4)
-        ctk.CTkLabel(t1_box, text="TARGET 1 // DSA & ALGORITHM CODING", font=("Segoe UI", 10, "bold"), text_color="#4f8ef7").pack(anchor="w", padx=10, pady=(6, 2))
+        ctk.CTkLabel(t1_box, text="TARGET 1 // DSA & ALGORITHM CODING", font=("Segoe UI", 10, "bold"), text_color="#2563eb").pack(anchor="w", padx=10, pady=(6, 2))
 
         t1_var = tk.BooleanVar(value=plan["target1"]["done"])
         def _toggle_t1():
             updated = toggle_target_done(1)
             score_badge.configure(
                 text=f"EXECUTION: {updated['execution_score']}%",
-                text_color="#22c55e" if updated["execution_score"] == 100 else "#f59e0b",
+                text_color="#16a34a" if updated["execution_score"] == 100 else "#f59e0b",
             )
-        ctk.CTkCheckBox(t1_box, text=plan["target1"]["text"], variable=t1_var, command=_toggle_t1, font=("Segoe UI", 10), fg_color="#4f8ef7", hover_color="#3b7de8").pack(anchor="w", padx=10, pady=(2, 8))
+        ctk.CTkCheckBox(t1_box, text=plan["target1"]["text"], variable=t1_var, command=_toggle_t1, font=("Segoe UI", 10), fg_color="#2563eb", hover_color="#1d4ed8").pack(anchor="w", padx=10, pady=(2, 8))
 
         # Target 2
-        t2_box = ctk.CTkFrame(modal, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        t2_box = ctk.CTkFrame(modal, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         t2_box.pack(fill=tk.X, padx=16, pady=4)
         ctk.CTkLabel(t2_box, text="TARGET 2 // CORE CS REVISION (STALE RECOVERY)", font=("Segoe UI", 10, "bold"), text_color="#a855f7").pack(anchor="w", padx=10, pady=(6, 2))
 
@@ -3805,36 +3805,36 @@ class JarvisGUI(ctk.CTk):
             updated = toggle_target_done(2)
             score_badge.configure(
                 text=f"EXECUTION: {updated['execution_score']}%",
-                text_color="#22c55e" if updated["execution_score"] == 100 else "#f59e0b",
+                text_color="#16a34a" if updated["execution_score"] == 100 else "#f59e0b",
             )
-        ctk.CTkCheckBox(t2_box, text=plan["target2"]["text"], variable=t2_var, command=_toggle_t2, font=("Segoe UI", 10), fg_color="#4f8ef7", hover_color="#3b7de8").pack(anchor="w", padx=10, pady=(2, 8))
+        ctk.CTkCheckBox(t2_box, text=plan["target2"]["text"], variable=t2_var, command=_toggle_t2, font=("Segoe UI", 10), fg_color="#2563eb", hover_color="#1d4ed8").pack(anchor="w", padx=10, pady=(2, 8))
 
         # Target 3
-        t3_box = ctk.CTkFrame(modal, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        t3_box = ctk.CTkFrame(modal, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         t3_box.pack(fill=tk.X, padx=16, pady=4)
-        ctk.CTkLabel(t3_box, text="TARGET 3 // LIFE / PLACEMENT DELIVERABLE", font=("Segoe UI", 10, "bold"), text_color="#22c55e").pack(anchor="w", padx=10, pady=(6, 2))
+        ctk.CTkLabel(t3_box, text="TARGET 3 // LIFE / PLACEMENT DELIVERABLE", font=("Segoe UI", 10, "bold"), text_color="#16a34a").pack(anchor="w", padx=10, pady=(6, 2))
 
         t3_var = tk.BooleanVar(value=plan["target3"]["done"])
         def _toggle_t3():
             updated = toggle_target_done(3)
             score_badge.configure(
                 text=f"EXECUTION: {updated['execution_score']}%",
-                text_color="#22c55e" if updated["execution_score"] == 100 else "#f59e0b",
+                text_color="#16a34a" if updated["execution_score"] == 100 else "#f59e0b",
             )
-        ctk.CTkCheckBox(t3_box, text=plan["target3"]["text"], variable=t3_var, command=_toggle_t3, font=("Segoe UI", 10), fg_color="#4f8ef7", hover_color="#3b7de8").pack(anchor="w", padx=10, pady=(2, 8))
+        ctk.CTkCheckBox(t3_box, text=plan["target3"]["text"], variable=t3_var, command=_toggle_t3, font=("Segoe UI", 10), fg_color="#2563eb", hover_color="#1d4ed8").pack(anchor="w", padx=10, pady=(2, 8))
 
         # Debrief Section
-        debrief_box = ctk.CTkFrame(modal, fg_color="#1a1d27", corner_radius=6, border_width=1, border_color="#2e3347")
+        debrief_box = ctk.CTkFrame(modal, fg_color="#ffffff", corner_radius=6, border_width=1, border_color="#e2e8f0")
         debrief_box.pack(fill=tk.BOTH, expand=True, padx=16, pady=6)
 
-        ctk.CTkLabel(debrief_box, text="EVENING DEBRIEF & ACCOUNTABILITY:", font=("Segoe UI", 10, "bold"), text_color="#94a3b8").pack(anchor="w", padx=10, pady=(6, 2))
+        ctk.CTkLabel(debrief_box, text="EVENING DEBRIEF & ACCOUNTABILITY:", font=("Segoe UI", 10, "bold"), text_color="#64748b").pack(anchor="w", padx=10, pady=(6, 2))
 
         debrief_display = scrolledtext.ScrolledText(
             debrief_box,
             height=5,
             font=("Segoe UI", 10),
-            bg="#13161f",
-            fg="#f1f5f9",
+            bg="#ffffff",
+            fg="#0f172a",
             wrap="word",
             relief="flat",
             bd=0,
@@ -3886,8 +3886,8 @@ class JarvisGUI(ctk.CTk):
             act_f,
             text="Close",
             command=modal.destroy,
-            fg_color="#242838",
-            hover_color="#2e3347",
+            fg_color="#f1f5f9",
+            hover_color="#dde3ea",
             font=("Segoe UI", 10),
             height=34,
             width=80,
@@ -3899,7 +3899,7 @@ class JarvisGUI(ctk.CTk):
         debrief_btn.configure(state=tk.NORMAL)
         score_badge.configure(
             text=f"EXECUTION: {res['score']}%",
-            text_color="#22c55e" if res["score"] == 100 else "#f59e0b",
+            text_color="#16a34a" if res["score"] == 100 else "#f59e0b",
         )
         display_widget.configure(state=tk.NORMAL)
         display_widget.delete("1.0", tk.END)
